@@ -1,4 +1,4 @@
 <?php
-echo 'hello kugou';exit();
-
+echo 'hello develop';
+exit();
 ?>
