@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="renderer" content="webkit">
+    <title></title>  
+    <link rel="stylesheet" href="css/pintuer.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+<form method="post" action="">
+  <div class="panel admin-panel">
+    <div class="panel-head"><strong class="icon-reorder">留言管理</strong></div>
+    <div class="padding border-bottom">
+      <ul class="search">
+        <li>
+          <button type="button"  class="button border-green" id="checkall"><span class="icon-check"></span> 全选</button>
+          <button type="button" onclick="DelSelect()" class="button border-red"><span class="icon-trash-o"></span> 批量删除</button>
+          <!-- <button type="submit" class="button border-red"><span class="icon-trash-o"></span> 批量删除</button> -->
+        </li>
+      </ul>
+    </div>
+    <table class="table table-hover text-center list">
+      <tr>
+        <!-- <th width="120">ID</th>
+        <th id="app">msg_md5</th>       
+        <th>userid</th>
+        <th>msg</th>
+        <th>status</th>
+        <th width="25%">add_time</th> -->
+        <th v-for="(value, key) in head">
+        {{value}}
+        </th>     
+        <th>操作</th>     
+      </tr>      
+        <tr v-for="(value, key) in data">
+          <td v-for="(value1, key1) in head">
+            <template v-if="key1 === 'id'">
+              <input type="checkbox" name="id[]" :value="value.id" />
+              {{key}}
+            </template>
+            <template v-else>
+              {{value[key1]}}
+            </template>
+          </td>
+          <!-- <td>{{value.msg_md5}}</td>
+          <td>{{value.userid}}</td>
+          <td>{{value.msg}}</td>
+          <td>{{value.status}}</td>  
+          <td>{{value.add_time|moment}}</td>   -->       
+          <td><div class="button-group">
+            <a class="button border-main" href="/tpl/lanse/page.html"><span class="icon-edit"></span> 修改</a>
+            <a class="button border-red" href="javascript:void(0)" v-on:click="del(value.msg_md5)"><span class="icon-trash-o"></span> 删除</a> 
+          </div></td>
+        </tr>
+      <tr>
+        <td colspan="8"><div class="pagelist" v-html="page"></div></td>
+      </tr>
+    </table>
+  </div>
+</form>
+<script src="/tpl/lanse/js/jquery.js"></script>
+<script src="/tpl/lanse/js/pintuer.js"></script>  
+<script src="/tpl/lanse/js/vue.js"></script> 
+<script src="/tpl/lanse/js/vue_common.js"></script>  
+<script type="text/javascript">
+
+$("#checkall").click(function(){ 
+  $("input[name='id[]']").each(function(){
+	  if (this.checked) {
+		  this.checked = false;
+	  }
+	  else {
+		  this.checked = true;
+	  }
+  });
+})
+
+function DelSelect(){
+	var Checkbox=false;
+	 $("input[name='id[]']").each(function(){
+	  if (this.checked==true) {
+		Checkbox=true;	
+	  }
+	});
+	if (Checkbox){
+		var t=confirm("您确认要删除选中的内容吗？");
+		if (t==false) return false; 		
+	}
+	else{
+		alert("请选择您要删除的内容!");
+		return false;
+	}
+}
+
+</script>
+
+</body></html>

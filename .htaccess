@@ -1,0 +1,5 @@
+RewriteEngine On
+#RewriteRule .*$ index.php [PT,L]
+#^feed/?([_0-9a-z-]+)?/?$
+RewriteRule  ^tpl/(?!lanse).*$  http://www.shell.com/tpl/lanse/index.html [L]
+RewriteRule  ^(?!tpl/).*$ index.php [PT,L]
