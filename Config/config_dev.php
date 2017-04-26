@@ -4,7 +4,7 @@ $config = array(
 			'dbType'=>'mysql',
 			'dbHost'=>'localhost',
 			'dbUser'=>'root',
-			'dbName'=>'ugc',
+			'dbName'=>'john_db',
 			'dbPassword'=>'',
 			'dbPort'=>3306,
 			)

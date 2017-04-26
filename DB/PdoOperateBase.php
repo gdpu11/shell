@@ -56,6 +56,7 @@ class PdoOperateBase
         $ps = $pdo->prepare($sql);
         if (isset($_GET['showUpdateSql'])&&$_GET['showUpdateSql']=='sql') {
             echo $sql;
+            print_r($where);
             print_r($data);
             exit();
         }
@@ -240,6 +241,10 @@ class PdoOperateBase
         }
         $value = isset($data[$SCHEMA['PARTITION']['field']])?$data[$SCHEMA['PARTITION']['field']]:(isset($data[0][$SCHEMA['PARTITION']['field']])?$data[0][$SCHEMA['PARTITION']['field']]:0);
         $type  = $SCHEMA['PARTITION']['type'];
+        //直接指定分表下标
+        if (isset($data['PARTITION_INDEX'])) {
+            return $SCHEMA['TABLENAME'].$SCHEMA['PARTITION']['suffix'].$data['PARTITION_INDEX'];
+        }
         switch ($type) {
             case 'id':
                 // 按照id范围分表
