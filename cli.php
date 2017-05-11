@@ -15,6 +15,10 @@ $GLOBALS['CONFIG'] = $config;
 // exit();
 //自动加载类
 function autoLoad($className){
+	if ($className == 'Redis') {
+		$redis = new Foo\Bar\Redis();
+		return $redis;
+	}
 	$arr = explode("\\", $className);
     include(ROOT_PATH.implode("/", $arr).'.php');
 }

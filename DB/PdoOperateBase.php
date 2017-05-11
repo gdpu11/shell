@@ -26,10 +26,9 @@ class PdoOperateBase
         $addFields = self::_getAddFields($data,$SCHEMA);
         $sql = "INSERT INTO `{$tbName}` {$addFields}";
         $pdo = self::getInstance($SCHEMA);
-        if (isset($_GET['showAddSql'])&&$_GET['showAddSql']=='sql') {
+        if (isset($_GET['showSql'])&&$_GET['showSql']=='sql') {
             echo $sql;
             print_r($data);
-            exit();
         }
         $ps = $pdo->prepare($sql);
         return $ps->execute();
@@ -54,11 +53,10 @@ class PdoOperateBase
         $sql = "UPDATE {$tbName} set {$update} {$whe}";
         $pdo = self::getInstance($SCHEMA);
         $ps = $pdo->prepare($sql);
-        if (isset($_GET['showUpdateSql'])&&$_GET['showUpdateSql']=='sql') {
+        if (isset($_GET['showSql'])&&$_GET['showSql']=='sql') {
             echo $sql;
             print_r($where);
             print_r($data);
-            exit();
         }
         foreach ($data as $key => $value) {
             if ((!empty($value)||(is_numeric($value)&&$value==0))) {
@@ -96,10 +94,9 @@ class PdoOperateBase
         $fields = self::_getFieldsStr($fields, $SCHEMA);
         $whe = self::_getWhereFields($where, $SCHEMA);
         $sql = "SELECT {$fields} FROM {$tbName} {$whe}";
-        if (isset($_GET['showGetOneSql'])&&$_GET['showGetOneSql']=='sql') {
+        if (isset($_GET['showSql'])&&$_GET['showSql']=='sql') {
             echo $sql;
             print_r($where);
-            exit();
         }
         $pdo = self::getInstance($SCHEMA);
         $ps = $pdo->prepare($sql);
@@ -130,10 +127,9 @@ class PdoOperateBase
         $page = intval($page-1)*$pageszie;
         $sql = "SELECT {$fields} FROM {$tbName} {$whe} limit {$page},{$pageszie}";
         $pdo = self::getInstance($SCHEMA);
-        if (isset($_GET['showGetAllSql'])&&$_GET['showGetAllSql']=='sql') {
+        if (isset($_GET['showSql'])&&$_GET['showSql']=='sql') {
             echo $sql;
             print_r($where);
-            exit();
         }
         $ps = $pdo->prepare($sql);
         foreach ($where as $key => $value) {    
@@ -146,7 +142,6 @@ class PdoOperateBase
         $ps->execute();
         return $ps->fetchAll(\PDO::FETCH_ASSOC);
     }
-
     /**
      * 获取记录总数
      * @author liqiang<qianglee@kugou.net>
@@ -157,9 +152,17 @@ class PdoOperateBase
      */
     public static function getSumsBySchema($where,$SCHEMA) {
         $tbName = self::_getTableName($SCHEMA,$where);
+        if (isset($_GET['showSql'])&&$_GET['showSql']=='sql') {
+            print_r($where);
+        }
         $whe = self::_getWhereFields($where, $SCHEMA);
         $sql = "SELECT count(1) as sum FROM {$tbName} {$whe}";
         $pdo = self::getInstance($SCHEMA);
+        if (isset($_GET['showSql'])&&$_GET['showSql']=='sql') {
+            echo $sql;
+            print_r($where);
+            exit();
+        }
         $ps = $pdo->prepare($sql);
         foreach ($where as $key => $value) {    
             if ($value['type'] == 'varchar') {
@@ -188,6 +191,10 @@ class PdoOperateBase
         $tbName = self::_getTableName($SCHEMA,$where);
         $whe = self::_getWhereFields($where, $SCHEMA);
         $sql = "DELETE FROM {$tbName} {$whe}";
+        if (isset($_GET['showSql'])&&$_GET['showSql']=='sql') {
+            echo $sql;
+            print_r($where);
+        }
         $pdo = self::getInstance($SCHEMA);
         $ps = $pdo->prepare($sql);
         if (empty($where)) {
@@ -229,7 +236,7 @@ class PdoOperateBase
      * @param  [type] $SCHEMA    [表名]
      * @return [type]               [返回下标]
      */
-    protected static function _getTableName($SCHEMA,$data = array()){
+    protected static function _getTableName($SCHEMA,&$data = array()){
         //是否有分表
         if (!isset($SCHEMA['PARTITION'])) {
             return $SCHEMA['TABLENAME'];
@@ -237,13 +244,18 @@ class PdoOperateBase
         if (isset($_GET['showSql'])&&$_GET['showSql']=='sql') {
             print_r($data);
             print_r($SCHEMA['TABLENAME'].$SCHEMA['PARTITION']['suffix'].$index);
-            exit();
         }
-        $value = isset($data[$SCHEMA['PARTITION']['field']])?$data[$SCHEMA['PARTITION']['field']]:(isset($data[0][$SCHEMA['PARTITION']['field']])?$data[0][$SCHEMA['PARTITION']['field']]:0);
+        $value = isset($data[$SCHEMA['PARTITION']['field']])?$data[$SCHEMA['PARTITION']['field']]:0;
+        if (!isset($data[$SCHEMA['PARTITION']['field']])) {
+            $data1 = current($data);
+            $value = isset($data1[$SCHEMA['PARTITION']['field']])?$data1[$SCHEMA['PARTITION']['field']]:0;
+        }
         $type  = $SCHEMA['PARTITION']['type'];
         //直接指定分表下标
         if (isset($data['PARTITION_INDEX'])) {
-            return $SCHEMA['TABLENAME'].$SCHEMA['PARTITION']['suffix'].$data['PARTITION_INDEX'];
+            $index = $data['PARTITION_INDEX'];
+            unset($data['PARTITION_INDEX']);
+            return $SCHEMA['TABLENAME'].$SCHEMA['PARTITION']['suffix'].$index;
         }
         switch ($type) {
             case 'id':
@@ -330,7 +342,7 @@ class PdoOperateBase
         if (empty($whe)) {
             return $GroupBy.$OrderBy;
         }
-        return 'WHERE '.ltrim($whe,' AND').$GroupBy.$OrderBy;
+        return 'WHERE '.preg_replace('/AND/', '', $whe, 1).$GroupBy.$OrderBy;
     }
     /**
      * [_getAddFields 拼接添加字段]

@@ -17,6 +17,26 @@ class CurlUtils
 	public static function getCurlInfo() {
 		return self::$_curlInfo;
 	}
+	public static function zhihuCurl($url) {
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+	    // curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-FORWARDED-FOR:'.$ip, 'CLIENT-IP:'.$ip));  //构造IP  
+
+	    // curl_setopt($ch, CURLOPT_REFERER, 'https://www.zhihu.com');  
+
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //不验证证书
+
+		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); //不验证证书
+
+		// curl_setopt($ch, CURLOPT_COOKIE, self::genCookie());
+		// curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.36');
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+		$str = curl_exec($ch);  
+	    curl_close($ch);  
+	    return $str; 
+	}
 
 	public static function ccurl($cookie,$user_agent,$destURL, $paramStr='',$flag='get',$ip='10.57.22.151',$fromurl='http://www.baidu.com'){  
 	    $curl = curl_init();  
