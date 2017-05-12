@@ -66,7 +66,7 @@ class CurlUtils
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //不验证证书
 
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); //不验证证书
-
+		echo self::genCookie();exit();
 		curl_setopt($ch, CURLOPT_COOKIE, self::genCookie());
 		// curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.36');
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
