@@ -17,7 +17,45 @@ class CurlUtils
 	public static function getCurlInfo() {
 		return self::$_curlInfo;
 	}
+	private static $cookie_arr = array(
+		'_utma'=>'51854390.1081609616.1491554927.1491554927.1494485214.2',
+		'__utmc'=>'51854390',
+		'__utmv'=>'51854390.100--|2=registration_date=20160119=1^3=entry_date=20160119=1',
+		'__utmz'=>'51854390.1494485214.2.2.utmcsr=zhihu.com|utmccn=(referral)|utmcmd=referral|utmcct=/',
+		'_xsrf'=>'d92dda0a2597a8dc99a8dbf6dfef6dc1',
+		'_zap'=>'bfac6e93-86f9-438a-a8b1-7af0f57d99a9',
+		'acw_tc'=>'AQAAACpKmiEF+gAAxKzXDmw3Q5LnJnzT',
+		'aliyungf_tc'=>'AQAAAGoxITgcogcAu+wSDnMGiPbFskVB',
+		'cap_id'=>'"MzVkOTJiOTUyYmVhNDA0Yjk2ZDQzOWVmMzkzMjVmZDk=|1494485183|4feb381cc9106b3bce6578d13c6c3eb03c0e3cb8"',
+		'd_c0'=>'"AABCT-sdhguPTp0HENc3BtMzgZfbe9xoJw0=|1490758991"',
+		'l_n_c'=>'1',
+		'q_c1'=>'32fa6ca9dd034413a9449f5090359780|1493975504000|1490758991000',
+		'r_cap_id'=>'"NDAzN2M0NDk4Y2Y3NGFiYmFiODJkZjA0NjE5ZTYyYjg=|1494485183|e065d07edefce46cdbcc6ea2c2934e1e6730416d"',
+		'z_c0'=>'Mi4wQUJES2wxb1VWZ2tBQUVKUDZ4MkdDeGNBQUFCaEFsVk55WlU3V1FDX1dsOV9GNVpDd3RjZ',
+	);
+
+	private static function genCookie() {
+		$cookie = '';
+		foreach (self::$cookie_arr as $key => $value) {
+			if($key != 'z_c0')
+				$cookie .= $key . '=' . $value . ';';
+			else
+				$cookie .= $key . '=' . $value;
+		}
+
+		return $cookie;
+	}
+	private static  function get_rand_ip(){
+	  $arr_1 = array("218","218","66","66","218","218","60","60","202","204","66","66","66","59","61","60","222","221","66","59","60","60","66","218","218","62","63","64","66","66","122","211");
+	  $randarr= mt_rand(0,count($arr_1));
+	  $ip1id = $arr_1[$randarr];
+	  $ip2id=  round(rand(600000,  2550000)  /  10000);
+	  $ip3id=  round(rand(600000,  2550000)  /  10000);
+	  $ip4id=  round(rand(600000,  2550000)  /  10000);
+	  return  $ip1id . "." . $ip2id . "." . $ip3id . "." . $ip4id;
+	}
 	public static function zhihuCurl($url) {
+		// $ip = self::get_rand_ip();
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 	    // curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-FORWARDED-FOR:'.$ip, 'CLIENT-IP:'.$ip));  //构造IP  

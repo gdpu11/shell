@@ -24,7 +24,7 @@ class PdoOperateBase
     public static function addBySchema($data,$SCHEMA) {
         $tbName = self::_getTableName($SCHEMA,$data);
         $addFields = self::_getAddFields($data,$SCHEMA);
-        $sql = "INSERT INTO `{$tbName}` {$addFields}";
+        $sql = "INSERT IGNORE INTO `{$tbName}` {$addFields}";
         $pdo = self::getInstance($SCHEMA);
         if (isset($_GET['showSql'])&&$_GET['showSql']=='sql') {
             echo $sql;
