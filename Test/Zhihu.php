@@ -14,16 +14,16 @@ class Zhihu
 {
 	//php G:\nginx\shell\cli.php Zhihu getUser
 	public static function getUser(){
-		if (RedisUtil::llen('request_queue') == 0)
+		if (RedisUtil::llen('request_flowers') == 0)
 		{
-			RedisUtil::sadd('request_queue', 'li-qiang-2-73');
+			RedisUtil::sadd('request_flowers', 'li-qiang-2-73');
 		}
 		$user_type = 'followers';
 		$page = 0;
 		$key = 1;
 		while (1) {
 			if ($key==1) {
-				$uid = RedisUtil::spop('request_queue');
+				$uid = RedisUtil::spop('request_flowers');
 			}
 			$url = 'https://www.zhihu.com/people/' . $uid . '/' . $user_type.'?page='.$page;
 			$result = CurlUtils::zhihuCurl($url);
@@ -33,7 +33,7 @@ class Zhihu
 			$i = 0;
 			foreach ($u_out[1] as $key => $value) {
 				if ($key%2 == 0&&!empty($value)) {
-					RedisUtil::sadd('request_queue', $value);
+					RedisUtil::sadd('request_flowers', $value);
 					$data[$i]['uid'] =   $value;
 					$data[$i]['img'] =   $u_out[2][$key];
 					$data[$i]['name'] =   $u_out[2][$key+1];
@@ -55,16 +55,16 @@ class Zhihu
 	}
 	//php G:\nginx\shell\cli.php Zhihu getUser1
 	public static function getUser1(){
-		if (RedisUtil::llen('request_queue') == 0)
+		if (RedisUtil::llen('request_following') == 0)
 		{
-			RedisUtil::sadd('request_queue', 'li-qiang-2-73');
+			RedisUtil::sadd('request_following', 'li-qiang-2-73');
 		}
 		$user_type = 'following';
 		$page = 0;
 		$key = 1;
 		while (1) {
 			if ($key==1) {
-				$uid = RedisUtil::spop('request_queue');
+				$uid = RedisUtil::spop('request_following');
 			}
 			$url = 'https://www.zhihu.com/people/' . $uid . '/' . $user_type.'?page='.$page;
 			$result = CurlUtils::zhihuCurl($url);
@@ -74,7 +74,7 @@ class Zhihu
 			$i = 0;
 			foreach ($u_out[1] as $key => $value) {
 				if ($key%2 == 0&&!empty($value)) {
-					RedisUtil::sadd('request_queue', $value);
+					RedisUtil::sadd('request_following', $value);
 					$data[$i]['uid'] =   $value;
 					$data[$i]['img'] =   $u_out[2][$key];
 					$data[$i]['name'] =   $u_out[2][$key+1];
