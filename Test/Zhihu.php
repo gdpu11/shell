@@ -27,6 +27,7 @@ class Zhihu
 			}
 			$url = 'https://www.zhihu.com/people/' . $uid . '/' . $user_type.'?page='.$page;
 			$result = CurlUtils::zhihuCurl($url);
+			sleep(1);
 			preg_match_all('#<a class="UserLink-link" target="_blank" href="\/people\/(.*?)">(.*?)</a>#', $result, $u_out);
 			print_r($url);
 			$data = array();
@@ -68,6 +69,7 @@ class Zhihu
 			}
 			$url = 'https://www.zhihu.com/people/' . $uid . '/' . $user_type.'?page='.$page;
 			$result = CurlUtils::zhihuCurl($url);
+			sleep(1);
 			preg_match_all('#<a class="UserLink-link" target="_blank" href="\/people\/(.*?)">(.*?)</a>#', $result, $u_out);
 			print_r($url);
 			$data = array();
