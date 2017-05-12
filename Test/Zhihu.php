@@ -28,6 +28,10 @@ class Zhihu
 			$url = 'https://www.zhihu.com/people/' . $uid . '/' . $user_type.'?page='.$page;
 			$result = CurlUtils::zhihuCurl($url);
 			preg_match_all('#<a class="UserLink-link" target="_blank" href="\/people\/(.*?)">(.*?)</a>#', $result, $u_out);
+			print_r($result);
+			print_r($u_out);
+			print_r($url);
+			exit();
 			$data = array();
 			$i = 0;
 			foreach ($u_out[1] as $key => $value) {
