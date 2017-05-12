@@ -55,10 +55,10 @@ class CurlUtils
 	  return  $ip1id . "." . $ip2id . "." . $ip3id . "." . $ip4id;
 	}
 	public static function zhihuCurl($url) {
-		// $ip = self::get_rand_ip();
+		$ip = self::get_rand_ip();
 		$ch = curl_init($url);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
-	    // curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-FORWARDED-FOR:'.$ip, 'CLIENT-IP:'.$ip));  //构造IP  
+	    curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-FORWARDED-FOR:'.$ip, 'CLIENT-IP:'.$ip));  //构造IP  
 
 	    // curl_setopt($ch, CURLOPT_REFERER, 'https://www.zhihu.com');  
 
@@ -66,7 +66,7 @@ class CurlUtils
 
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); //不验证证书
 
-		// curl_setopt($ch, CURLOPT_COOKIE, self::genCookie());
+		curl_setopt($ch, CURLOPT_COOKIE, self::genCookie());
 		// curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.36');
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
