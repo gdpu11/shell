@@ -4,8 +4,8 @@ $config = array(
 			'dbType'=>'mysql',
 			'dbHost'=>'localhost',
 			'dbUser'=>'root',
-			'dbName'=>'rocboss',
-			'dbPassword'=>'123456',
+			'dbName'=>'john_db',
+			'dbPassword'=>'',
 			'dbPort'=>3306,
 			)
 		);

@@ -32,6 +32,7 @@ class Test
 	}	
 	//php G:\nginx\shell\cli.php Test hash
 	public static function hash(){
+		
 		while (true) {
 			$where['status'] = 0;
 			$hashList = HashTABLE::getAlls($where,4,20);

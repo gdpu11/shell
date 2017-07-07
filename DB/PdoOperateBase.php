@@ -1,18 +1,41 @@
 <?php
-namespace wsing\core\mysql\entities;
+namespace DB;
 
-use wsing\core\util\PdoClient;
 class PdoOperateBase
 {
+    private static $_instance ;
+
+    public static function connect($params)
+    {
+        try { 
+            $pdo = new \PDO($params['db']['dbType'].':host='.$params['db']['dbHost'].';port='.$params['db']['dbPort'].';dbname='.$params['db']['dbName'],$params['db']['dbUser'],$params['db']['dbPassword'],
+            array(
+                \PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8;")
+            ); 
+        } catch (\PDOException $e) {  
+            throw new \Exception($e->getMessage()); 
+            return false; 
+        }
+
+        if(!$pdo) { 
+            throw new \Exception('\PDO CONNECT ERROR'); 
+            return false; 
+        } 
+ 
+        return $pdo;
+    }
     /**
      * 得到操作数据库对象
      * @param string $params 对应的数据库配置
      * return false说明给定的数据库不存在
      */
-    public static function getInstance($SCHEMA)
+    public static function getInstance($params = null)
     {
-        $connectStringName = isset($SCHEMA['DBNAME'])?$SCHEMA['DBNAME']:'support';
-        return PdoClient::getInstance($connectStringName)->db;
+        if (!isset(self::$_instance) || !is_object(self::$_instance)){
+            $params = empty($params)?$GLOBALS['CONFIG']:$params;
+            self::$_instance = self::connect($params);
+        }
+        return self::$_instance;
     }
 
     /**
@@ -25,7 +48,7 @@ class PdoOperateBase
         $tbName = self::_getTableName($SCHEMA,$data);
         $addFields = self::_getAddFields($data,$SCHEMA);
         $sql = "INSERT IGNORE INTO `{$tbName}` {$addFields}";
-        $pdo = self::getInstance($SCHEMA);
+        $pdo = self::getInstance();
         if (isset($_GET['showSql'])&&$_GET['showSql']=='sql') {
             echo $sql;
             print_r($data);
@@ -51,7 +74,7 @@ class PdoOperateBase
         $update = self::_getUpdateFields($data,$SCHEMA);
         $whe = self::_getWhereFields($where, $SCHEMA);
         $sql = "UPDATE {$tbName} set {$update} {$whe}";
-        $pdo = self::getInstance($SCHEMA);
+        $pdo = self::getInstance();
         $ps = $pdo->prepare($sql);
         if (isset($_GET['showSql'])&&$_GET['showSql']=='sql') {
             echo $sql;
@@ -98,7 +121,7 @@ class PdoOperateBase
             echo $sql;
             print_r($where);
         }
-        $pdo = self::getInstance($SCHEMA);
+        $pdo = self::getInstance();
         $ps = $pdo->prepare($sql);
         foreach ($where as $key => $value) {    
             if ($value['type'] == 'varchar') {
@@ -126,7 +149,7 @@ class PdoOperateBase
         $whe = self::_getWhereFields($where, $SCHEMA);
         $page = intval($page-1)*$pageszie;
         $sql = "SELECT {$fields} FROM {$tbName} {$whe} limit {$page},{$pageszie}";
-        $pdo = self::getInstance($SCHEMA);
+        $pdo = self::getInstance();
         if (isset($_GET['showSql'])&&$_GET['showSql']=='sql') {
             echo $sql;
             print_r($where);
@@ -157,7 +180,7 @@ class PdoOperateBase
         }
         $whe = self::_getWhereFields($where, $SCHEMA);
         $sql = "SELECT count(1) as sum FROM {$tbName} {$whe}";
-        $pdo = self::getInstance($SCHEMA);
+        $pdo = self::getInstance();
         if (isset($_GET['showSql'])&&$_GET['showSql']=='sql') {
             echo $sql;
             print_r($where);
@@ -195,7 +218,7 @@ class PdoOperateBase
             echo $sql;
             print_r($where);
         }
-        $pdo = self::getInstance($SCHEMA);
+        $pdo = self::getInstance();
         $ps = $pdo->prepare($sql);
         if (empty($where)) {
             return false;
@@ -361,7 +384,9 @@ class PdoOperateBase
         }else{
             $add_key = self::_getAddKey(current($data),$SCHEMA);
             foreach ($data as $key => $value) {
-                $add_value .= self::_getAddValue($value,$SCHEMA).',';
+                if (is_array($value)) {
+                    $add_value .= self::_getAddValue($value,$SCHEMA).',';
+                }
             }
             $add_value =  rtrim($add_value,',');
         }
@@ -392,6 +417,7 @@ class PdoOperateBase
      * @return [type]         [description]
      */
     protected static function _getAddValue($data,$SCHEMA=array()){
+        
         $fieldKey = array_keys($SCHEMA['FIELDS']);
         $dataKey = array_keys($data);
         $saveKey = array_intersect($dataKey,$fieldKey);

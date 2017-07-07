@@ -9,27 +9,29 @@
  */
 namespace DB;
 
-use DB\DBConnect;
+use DB\PdoOperateBase;
 
 
-class ZhUserTABLE extends DBConnect
+class ZhUserTABLE extends PdoOperateBase
 {
-	/** 
+  /** 
      * 数据源结构$_SCHEMA_ 
      * 当前数据源所对应的数据库表的简单定义 
      * 
      * @var array 
      */ 
+    
     protected static $_SCHEMA_ = array(
         'TABLENAME'=>'zh_user',
-        'PRIMARY'=>'id',//主键索引
+        'PRIMARY'=>'msg_md5',//主键索引
         'FIELDS'=>array(
-            'id'=>array( 'type'=>'int', 'isAllowNull'=>true, 'defaultValue'=>'', ), //主播名字
-            'uid'=>array( 'type'=>'varchar', 'isAllowNull'=>true, 'defaultValue'=>'', ), //主播名字
-            'name'=>array( 'type'=>'varchar', 'isAllowNull'=>true, 'defaultValue'=>'', ), //主播名字
-            'img'=>array( 'type'=>'text', 'isAllowNull'=>true, 'defaultValue'=>'', ), //主播名字
+            'id'=>array( 'type'=>'int', 'isAllowNull'=>true, 'defaultValue'=>'', ), //消息md5
+            'uid'=>array( 'type'=>'varchar', 'isAllowNull'=>true, 'defaultValue'=>'', ), //消息md5
+            'name'=>array( 'type'=>'varchar', 'isAllowNull'=>true, 'defaultValue'=>'', ), //消息md5
+            'img'=>array( 'type'=>'varchar', 'isAllowNull'=>true, 'defaultValue'=>'', ), //消息md5
         ),
     );
+
     /**
      * 添加记录
      * @author liqiang<455019211@qq.com>
@@ -41,7 +43,7 @@ class ZhUserTABLE extends DBConnect
     }
 
     /**
-     * [getById 根据条件获取一首歌信息]
+     * [getById 根据条件获取一条记录]
      * @author qianglee@kugou.net
      * @date   2016-12-15
      * @param  [type]  $id        [id]
@@ -50,7 +52,7 @@ class ZhUserTABLE extends DBConnect
      * @param  [type]  $SCHEMA [表名]
      * @return [type]             [description]
      */
-    public static function getById($where,$fields=array()) {
+    public static function getOne($where,$fields=array()) {
         return self::getOneBySchema($where,$fields,self::$_SCHEMA_);
     }
 
@@ -97,7 +99,7 @@ class ZhUserTABLE extends DBConnect
      * @param  array  $where [查询条件]
      * @return [type]        [description]
      */
-    public static function deleteById($where = array()) {
+    public static function delete($where = array()) {
         return self::deleteBySchema($where,self::$_SCHEMA_);
     }
 }

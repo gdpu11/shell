@@ -9,10 +9,10 @@
  */
 namespace DB;
 
-use DB\DBConnect;
+use DB\PdoOperateBase;
 
 
-class MsgSourceTABLE extends DBConnect
+class MsgSourceTABLE extends PdoOperateBase
 {
 	/** 
      * 数据源结构$_SCHEMA_ 
