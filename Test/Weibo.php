@@ -78,6 +78,7 @@ class Weibo
 		}
 		return WeiboListTABLE::addOne($insert);
 	}
+
 	//php G:\nginx\shell\cli.php Weibo getfollow
 	///usr/local/php/bin/php  /data/zhihu/shell/cli.php Weibo getMsg
 	public static function getfollow(){
@@ -85,18 +86,21 @@ class Weibo
 		self::getUserByType($type);
 
 	}	
+
 	//php G:\nginx\shell\cli.php Weibo getfans
 	///usr/local/php/bin/php  /data/zhihu/shell/cli.php Weibo getMsg
 	public static function getfans(){
 		$type = 'follow?relate=fans&';
 		self::getUserByType($type);
 	}	
+
 	//php G:\nginx\shell\cli.php Weibo getUserDetail
 	///usr/local/php/bin/php  /data/zhihu/shell/cli.php Weibo getMsg
 	public static function getUserDetail(){
 		$type = 'UserDetail';
 		self::getUserDetailByType($type);
 	}	
+
 	//php G:\nginx\shell\cli.php Weibo getFollowing
 	//关注者--粉丝
 	public static function getUserDetailByType($type){
@@ -150,8 +154,21 @@ class Weibo
 	//php G:\nginx\shell\cli.php Weibo getFollowing
 	//关注者--粉丝
 	public static function getUserByType($type,$getType = 1){
+		$uid = array(
+		'pageIndex'=>'Pl_Official_HisRelation__60',
+		'pageId'=>'1005052365723822',
+		'uid'=>2365723822,
+		);
 		date_default_timezone_set("PRC");
+		$hashMap = 'hashMap';
 		$redisKey = 'WEIBO_User_List';
+		RedisUtil::hmset($hashMap,$uid);
+		RedisUtil::expire($hashMap,10);
+
+		print_r(RedisUtil::hget($hashMap,'pageIndex')) ;
+		print_r(RedisUtil::hmget($hashMap,array('pageIndex'))) ;
+
+		exit();
 		// $pageIndexKey = 'WEIBO_pageIndex_'.$type;
 		// $pageIdKey = 'WEIBO__pageId'.$type;
 		if (RedisUtil::llen($redisKey) == 0)

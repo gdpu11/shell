@@ -113,6 +113,46 @@ class CurlUtils
 	  return  $ip1id . "." . $ip2id . "." . $ip3id . "." . $ip4id;
 	}
 
+	public static function aliCurl($url) {
+		$cookie = 'JSESSIONID=9L78l9qw1-dN1Ys1U4W2Dl9kRgPA-eM0kMQQ-nyOL; cna=5uTkEdtdcxACAQ4S7LvKDQbv; cookie1=BdM0yO4M2ve2%2F6GBip3tA89bd6%2BmJx%2FVgCZmCbXANS4%3D; cookie2=1c0f323d2e4bef75f7c8bfc201b45ebe; cookie17=Uoe0bUt%2F%2FrCnPw%3D%3D; uss=UR2NjczBazSjTiff9ZPW0axmpnw46Nz%2BcI3Ftxe3INNM9hGEZcXM%2Bp1a3w%3D%3D; t=a02544b73a9fd263e867b8638e17a6f4; _tb_token_=e671eefb3bb3e; sg=157; __cn_logon__=true; __cn_logon_id__=gdpu11; ali_apache_track="c_ms=1|c_mid=b2b-1600327515|c_lid=gdpu11"; ali_apache_tracktmp="c_w_signed=Y"; cn_tmp="Z28mC+GqtZ1waru4w6kjau/aRCobqNdabaWTDqYYOYjx3BJZf9BR447G9TsJcO8n+elQ6kMpFECVhh8zoVBIg69y/rSD9ppJ5s4rM6nX098I0hqsYx2ZnU+Ti/4INuzXqlfNtz4ZlhpNWFXblkqsCnJ5uOy8BKO3X2IiO+k9/wt836lf2VgRNb2bnC2ggVF3uFBb59wFm28cvRKfVupE98ifIp41Eyo1zyDQNMk6XE4="; _cn_slid_=vbQEJ44hHm; tbsnid=OM7YsQqTUl9t9vV%2FsSRU8mgfXErszIa%2BlysU6PGaSIc6sOlEpJKl9g%3D%3D; LoginUmid="8Sqcaf5aU%2FD8dlhkB5NTCPI%2FbyJwsOAvccw36LNHa49TG4BC5yy9jw%3D%3D"; userID="%2BTZ1ATiQ%2BU6K%2FhvPk1RWIUYghLzxWWn%2B%2BsGi33baZlM6sOlEpJKl9g%3D%3D"; last_mid=b2b-1600327515; unb=1600327515; __last_loginid__=gdpu11; login="kFeyVBJLQQI%3D"; _csrf_token=1500961647943; _is_show_loginId_change_block_=b2b-1600327515_false; _show_force_unbind_div_=b2b-1600327515_false; _show_sys_unbind_div_=b2b-1600327515_false; _show_user_unbind_div_=b2b-1600327515_false; UM_distinctid=15d7855b21f3ee-094d01276b6842-1571466f-1fa400-15d7855b220586; ali_ab=14.215.172.196.1500962471158.5; alicnweb=lastlogonid%3Dgdpu11%7Ctouch_tb_at%3D1500965244177; userIDNum=lDtWkCp106nFSJDXntqVGw%3D%3D; _nk_=rS6M4t5tu9E%3D; __rn_alert__=false; _tmp_ck_0="t9wOA%2BIRt2AxvGEoshUuDHE3zL3BBA5JHVWfr9%2BYLulZRQikiDdDioqsJUIBqjD%2BVsnuvIu7QQvNB4Wt%2BPBNuyQkX9XRHmZMYmtdz71hS9Q9vE5Toe%2FuxWSoXRxDdSvWnyBbGWFjuuLosXr2CnBl3UXIqx02ruSZ9J3JbnZsV%2BKEN6yQTBopJykS0Kq6KRkBePW4MVOQqS1kr6lBJfwMy%2F7aC33%2BlOuRjB%2BZGfKQ%2FBOp1d1l5FYtP8%2FE2U%2FdIqqddAHXcUej4%2Fk06YcE0zkf8YDTqDUy%2BadQUabsh2lZdk6EXC%2Byk5d%2BkCVMr%2BWwrMQiqOXr2L%2FJVhJ8vaG6Sq2N1oDQRm42ahtsvxyNstwFOXmdGrlHXRb5dZ9yfyhKnsL7OiWKaARm4e8QE6QQCDbZw%2FW0wBkYkhN3fj4fOekX2%2Bh4c3cPFBEl1DCdKZPwPzWyeZXxtny9aDcIDxWZOBjqiepHW81Sx9JvQuscviifi2FzIFrPPHBQPtmVCqQqAcv7OM3ylBRDTNa0hhT1CqJL9%2FeXeksFz2xAhlpX5mO8PcY%3D"; isg=AqqqAbeuhxOi6gt_v4viSi-n9RCMs550Y7E6HDRjVv2IZ0ohHKt-hfAVg4wf';
+		
+		$ip = self::get_rand_ip();
+		// $header = array(
+		// 	'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+		// 	'Accept-Encoding:gzip,deflate,sdch',
+		// 	'Accept-Language:zh-CN,zh;q=0.8',
+		// 	'Cache-Control:max-age=0',
+		// 	'Cookie:YF-Ugrow-G0=5b31332af1361e117ff29bb32e4d8439; login_sid_t=8bc76b153e8419e2795fce8ca738843e; YF-V5-G0=5f9bd778c31f9e6f413e97a1d464047a; WBStorage=28a7a732670d7678|undefined; _s_tentry=-; Apache=9386359956115.484.1499396230374; SINAGLOBAL=9386359956115.484.1499396230374; ULV=1499396230383:1:1:1:9386359956115.484.1499396230374:; YF-Page-G0=04608cddd2bbca9a376ef2efa085a43b; UOR=,,login.sina.com.cn; crossidccode=CODE-gz-1DtjwS-fYJVF-xYrSfoDDq8nrFr76c7956; WBtopGlobal_register_version=85d55bc0e4930702; SCF=Al4VIhWRikQ_pF8ROr4MVBS4w4C_EaNOpe5MrF4DAe8nXPK_yA0mLr_xXpyqcLc80lS0euPRSUdc3QZ3bidIcYI.; SUB=_2A250WomJDeRhGeRP7FAU9ifPwz-IHXVXEfxBrDV8PUNbmtBeLXXHkW-FCFttl-SMWprWFXGRsTbQymDVww..; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WW8RL5kPyoQX_3dg7PXzR555JpX5o275NHD95QEeKMESKq4e0n0Ws4Dqcj8gFfAIg-t; SUHB=0RybsSXogaVWfz; ALF=1500001370; SSOLoginState=1499396569; un=455019211@qq.com; wvr=6',
+		// 	// 'Host:weibo.com',
+		// 	'Proxy-Connection:keep-alive',
+		// 	// 'Referer:http://weibo.com/2172569383/profile?topnav=1&wvr=6&is_all=1',
+		// 	// 'Referer:http://weibo.com/6089568504/follow',
+		// 	'User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36 SE 2.X MetaSr 1.0',
+		// 	'X-FORWARDED-FOR:'.$ip,
+		// 	'CLIENT-IP:'.$ip,
+		// 	// '',
+		// 	);
+
+		$ch = curl_init($url);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+	    // curl_setopt($ch, CURLOPT_HTTPHEADER, $header);  //构造IP  
+	    curl_setopt($ch, CURLOPT_HTTPHEADER, array('X-FORWARDED-FOR:'.$ip, 'CLIENT-IP:'.$ip));  //构造IP  
+	    curl_setopt($ch, CURLOPT_REFERER, $url);  
+
+		// curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //不验证证书
+
+		// curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); //不验证证书
+		curl_setopt($ch, CURLOPT_COOKIE, self::genCookie());
+		curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.130 Safari/537.36');
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+		$str = curl_exec($ch); 
+		// self::$_curlInfo = curl_getinfo($ch);
+	    curl_close($ch);  
+	    return $str; 
+	}
+
 	public static function weiboCurl($url) {
 		$ip = self::get_rand_ip();
 		// $header = array(
