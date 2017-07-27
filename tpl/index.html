@@ -2,8 +2,74 @@
 <head>
 <title>测试测试</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" media="screen" href="/tpl/public/css/css-table.css" />
+<script type="text/javascript" src="/tpl/public/js/jquery-1.2.6.min.js"></script>
+<script type="text/javascript" src="/tpl/public/js/style-table.js"></script>
 </head>
-<body>
-11111
+<body >
+<input type="text" name="id" id="id" value="36630828" />
+<button id="btn" onclick="start()">开启</button>
+<button id="btn" onclick="stop()">停止</button>
+<button id="btn" onclick="clean()">清除</button>
+<table id="travel" >
+	<!-- <caption>啊啊啊</caption> -->
+    <thead >    
+        <tr>							
+            <th scope="col">id</th>
+            <th scope="col">company</th>
+            <!-- <th scope="col">company</th> -->
+            <th scope="col">name</th>
+            <th scope="col">hot</th>
+            <th scope="col">city</th>
+            <th scope="col">main</th>
+            <th scope="col">mode</th>
+            <th scope="col">add_time</th>
+        </tr>        
+    </thead>
+</table>
+<table id="thead">
+</table>
 </body>
+<script language="JavaScript"> 
+	var p =1;
+	var t1 = setInterval('myrefresh()',2000); //指定1秒刷新一次 
+	thisID = $("#id");
+	thead = $("#thead");
+	function getData() 
+	{ 
+		var id = thisID.val()
+		$.get("/Api/getali",{ id: id,p: p}, function(result){
+			if (result.id == id) {
+				return ;
+			};
+		    // thead.after(result.data);
+		    thead.prepend(result.data);
+		    thisID.val(result.id);
+		    // travel.append(result.data);
+		  },"json");	
+	}
+	// var t1 = setTimeout('myrefresh()',1000); //指定1秒刷新一次 
+
+	function myrefresh() 
+	{ 
+		getData();
+	// window.location.reload(); 
+	}
+
+
+	function clean() 
+	{ 
+		thead.html('');
+	}
+
+	function stop() 
+	{ 
+		window.clearInterval(t1)
+	}
+
+	function start() 
+	{ 
+		t1 = setInterval('myrefresh()',2000); //指定1秒刷新一次 
+	} 
+</script> 
 </html>

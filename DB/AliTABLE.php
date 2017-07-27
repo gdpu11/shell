@@ -29,6 +29,7 @@ class AliTABLE extends PdoOperateBase
             'company'=>array( 'type'=>'varchar', 'isAllowNull'=>true, 'defaultValue'=>'', ), //消息md5
             'name'=>array( 'type'=>'varchar', 'isAllowNull'=>true, 'defaultValue'=>'', ), //消息md5
             'hot'=>array( 'type'=>'int', 'isAllowNull'=>true, 'defaultValue'=>'', ), //消息md5
+            'url'=>array( 'type'=>'varchar', 'isAllowNull'=>true, 'defaultValue'=>'', ), //消息md5
             'city'=>array( 'type'=>'varchar', 'isAllowNull'=>true, 'defaultValue'=>'', ), //消息md5
             'main'=>array( 'type'=>'varchar', 'isAllowNull'=>true, 'defaultValue'=>'', ), //消息md5
             'mode'=>array( 'type'=>'varchar', 'isAllowNull'=>true, 'defaultValue'=>'', ), //消息md5
