@@ -24,7 +24,7 @@ class Api extends \Test\ApiBase
 		"<tfoot>
     	<tr>
         <td>{$value['id']}</td>
-        <td><a href='".$value['url']."'>{$value['company']}</a></td>
+        <td><a target='_blank' href='".$value['url']."'>{$value['company']}</a></td>
         <td>{$value['name']}</td>
         <td>{$value['hot']}</td>
         <td>{$value['city']}</td>
