@@ -16,11 +16,27 @@ class Api extends \Test\ApiBase
 	 * [getMsg 获取信息列表]
 	 * @return [type] [description]
 	 */
+	public static function sess(){
+		Session_start(); 
+		$sessionId = session_id();//得到sessionid
+		if (!RedisUtil::exists($sessionId)) {
+	  		header("location: http://ali.liiking.com/?g=Test&c=Api&f=login");
+			exit();
+		}else{
+			return true;
+		}
+	}
+	/**
+	 * [getMsg 获取信息列表]
+	 * @return [type] [description]
+	 */
 	public static function getServer(){
+		self::sess();;
 		print_r($_SERVER);
 		exit();
 	}
-	public static function getTable($value){
+	private static function getTable($value){
+
 		return 
 		"<tfoot>
     	<tr>
@@ -37,6 +53,7 @@ class Api extends \Test\ApiBase
 	}
 
 	public static function login(){
+
 		$user = 'lan';
 		$pasww = 'lanali1688';
 		Session_start(); 
@@ -65,44 +82,40 @@ class Api extends \Test\ApiBase
 		
 	}
 	public static function getali(){
-		Session_start(); 
-
-		$sessionId = session_id();//得到sessionid
-
-		if (RedisUtil::exists($sessionId)) {
-
-		$id = $_GET['id'];
-		$keyword = $_GET['keyword'];
-		$keyword = str_replace('，',',',$keyword);
-		$keyword = explode(',', $keyword);
-		$p = $_GET['p'];
-		$where['id'] = array('>'=>$id);
-		$where['order'] ='id asc';
-		$newid = AliTABLE::getOne(array('order'=>' id desc'));
-		$sums = AliTABLE::getsums($where);
-		$data = AliTABLE::getAlls($where,$p,1);
-		$status = 0;
-		$result = '';
-		foreach ($data as $key => &$value) {
-			if (!empty($keyword)&&is_array($keyword)) {
-				foreach ($keyword as $key1 => $value1) {
-					if (strpos($value['company'].$value['city'], $value1)!== false) {
-						$status = 1;
-						$value['company'] = str_replace($value1, '<span style="color:red;">'.$value1.'</span>', $value['company']);
-						$value['city'] = str_replace($value1, '<span style="color:red;">'.$value1.'</span>', $value['city']);
+		if (self::sess();) {
+			$id = $_GET['id'];
+			$keyword = $_GET['keyword'];
+			$keyword = str_replace('，',',',$keyword);
+			$keyword = explode(',', $keyword);
+			$p = $_GET['p'];
+			$where['id'] = array('>'=>$id);
+			$where['order'] ='id asc';
+			$newid = AliTABLE::getOne(array('order'=>' id desc'));
+			$sums = AliTABLE::getsums($where);
+			$data = AliTABLE::getAlls($where,$p,1);
+			$status = 0;
+			$result = '';
+			foreach ($data as $key => &$value) {
+				if (!empty($keyword)&&is_array($keyword)) {
+					foreach ($keyword as $key1 => $value1) {
+						if (strpos($value['company'].$value['city'], $value1)!== false) {
+							$status = 1;
+							$value['company'] = str_replace($value1, '<span style="color:red;">'.$value1.'</span>', $value['company']);
+							$value['city'] = str_replace($value1, '<span style="color:red;">'.$value1.'</span>', $value['city']);
+						}
 					}
 				}
+				
+				$id = $value['id'];
+				$result .= self::getTable($value);
 			}
-			
-			$id = $value['id'];
-			$result .= self::getTable($value);
-		}
-		echo json_encode(array('id'=>$id,'data'=>$result,'status'=>$status,'newid'=>$newid['id']));
-		exit();
+			echo json_encode(array('id'=>$id,'data'=>$result,'status'=>$status,'newid'=>$newid['id']));
+			exit();
 		}
 	}
 
 	public static function getSSali(){
+		self::sess();
 		$id = 36626746;
 		$content =  "Content-Disposition: form-data; 
 		_csrf_token=\"601b53fe14d712ca686443bbb7ce6155\"; 
@@ -185,6 +198,7 @@ class Api extends \Test\ApiBase
 
 
 	public static function getWeibo(){
+		self::sess();
 		$url = 'http://weibo.com/6089568504/follow';
 		$data = array();
 		// $url = 'http://www.shell.com/Api/getServer';
@@ -223,6 +237,7 @@ class Api extends \Test\ApiBase
 		exit();
 	}
 	public static function getMultiMsg(){
+		self::sess();
 		$url = array(
 			'https://www.zhihu.com/people/laruence/followers?page=1',
 			'https://www.zhihu.com/people/laruence/followers?page=2',
@@ -233,6 +248,7 @@ class Api extends \Test\ApiBase
 		exit();
 	}
 	public static function getMsg(){
+		self::sess();
 		$url = 'https://www.zhihu.com/people/li-qiang-2-73/following';
 		$url = 'https://www.zhihu.com/people/laruence/followers?page=2';
 		// $url = 'http://www.shell.com/Api/getMsg';
@@ -289,6 +305,7 @@ class Api extends \Test\ApiBase
 	 * @return [type] [description]
 	 */
 	public static function delMsg(){
+		self::sess();
 		$id = isset($_POST['id'])?$_POST['id']:'';
 		if (empty($id)) {
 			echo json_encode(array('code'=>-1,'url'=>'/tpl/lanse/book.html?'.http_build_query($_GET)));
