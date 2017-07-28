@@ -1,6 +1,4 @@
 <?php
-ini_set("display_errors", "Off");
-
 // phpinfo();
 // 定义一个值为服务端根路径的常量 ROOT_PATH
 if ('\\' === DIRECTORY_SEPARATOR) // Windows 环境下
