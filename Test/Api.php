@@ -59,7 +59,7 @@ class Api extends \Test\ApiBase
 		Session_start(); 
 		$sessionId = session_id();//得到sessionid
 		if (RedisUtil::exists($sessionId)) {
-	  		header("location: http://www.shell.com/tpl/index.html");
+	  		header("location: /tpl/index.html");
 			exit();
 		}else{
 			if (!isset($_SERVER['PHP_AUTH_USER'])) {
@@ -70,7 +70,7 @@ class Api extends \Test\ApiBase
 			  } else {
 			  	if ($_SERVER['PHP_AUTH_USER']==$user&&$pasww==$_SERVER['PHP_AUTH_PW']) {
 					RedisUtil::set($sessionId,'1');
-			  		header("location: http://www.shell.com/tpl/index.html");
+			  		header("location: /tpl/index.html");
 					exit;
 			  	}else{
 			  		echo 'fuck';
