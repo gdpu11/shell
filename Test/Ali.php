@@ -56,7 +56,7 @@ class Ali
 	    $result = file_get_contents($url, false, $context);
 		sleep(1);
 		// print_r($result);
-		$result = iconv('GB2312', 'UTF-8', $result);
+		$result = iconv('GB2312', 'UTF-8//TRANSLIT//IGNOR', $result);
 		preg_match_all('#\)\;\"\>(.*?)\<\/a\>\<\/dt\>#', $result, $data['name']);
 		preg_match_all('#\<span class=\"label\"\>(.*?)[.\n]#', $result, $data['user']);
 		preg_match_all('#此信息收藏人气\:(.*?)<\/strong><\/p>#', $result, $data['hot']);
@@ -65,7 +65,7 @@ class Ali
 		// preg_match_all('#<dd class=\"txt\"><span class=\"label\">(.*?)<\/dd>#', $result, $data['txt']);
 		preg_match_all('#\<dd class=\"city\"\>(.*?)\<\/dd\>#', $result, $data['city']);
 		if (!isset($data['name'][1])||empty($data['name'][1])) {
-			print_r(iconv('UTF-8', 'GB2312', $result));
+			print_r(iconv('UTF-8', 'GB2312//TRANSLIT//IGNOR', $result));
 			$nullcount = RedisUtil::incr($startKey.'-nullcount');
 			if ($nullcount > $time) {
 				$id = RedisUtil::incr($startKey);
