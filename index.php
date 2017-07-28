@@ -21,6 +21,7 @@ function autoLoad($className){
     include(ROOT_PATH.implode("/", $arr).'.php');
 }
 spl_autoload_register('autoLoad');
+print_r($_SERVER);exit();
 $arr = explode("/", $_SERVER['REDIRECT_URL']);
 $arr[1] = 'Test\\'.ucfirst($arr[1]);
 $arr[1]::$arr[2]();
