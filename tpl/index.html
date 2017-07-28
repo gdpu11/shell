@@ -45,21 +45,6 @@
 	thead = $("#thead");
 	thiskeyword = $("#keyword");
 
-	function login() {
-		$.get("/",{ g: 'Test', c: 'Api', f: 'login'}, function(result){
-			if (result.id == id) {
-				return ;
-			};
-			if (result.status == 1) {
-				play();
-			};
-		    // thead.after(result.data);
-		    thead.prepend(result.data);
-		    thisID.val(result.id);
-		    thisnew.text('最新：'+result.newid);
-		    // travel.append(result.data);
-		  },"json");
-	}
 	function play() {
 		var audio = document.getElementById('audio1'); 
 	     if(audio.paused){                 
