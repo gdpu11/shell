@@ -65,7 +65,7 @@ class Ali
 		// preg_match_all('#<dd class=\"txt\"><span class=\"label\">(.*?)<\/dd>#', $result, $data['txt']);
 		preg_match_all('#\<dd class=\"city\"\>(.*?)\<\/dd\>#', $result, $data['city']);
 		if (!isset($data['name'][1])||empty($data['name'][1])) {
-			print_r(iconv('UTF-8', 'GB2312', $result));
+			// print_r(iconv('UTF-8', 'GB2312', $result));
 			$nullcount = RedisUtil::incr($startKey.'-nullcount');
 			if ($nullcount > $time) {
 				$id = RedisUtil::incr($startKey);
