@@ -82,7 +82,7 @@ class Api extends \Test\ApiBase
 		
 	}
 	public static function getali(){
-		if (self::sess();) {
+		if (self::sess()) {
 			$id = $_GET['id'];
 			$keyword = $_GET['keyword'];
 			$keyword = str_replace('，',',',$keyword);
