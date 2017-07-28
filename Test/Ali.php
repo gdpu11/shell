@@ -7,6 +7,7 @@ use Utils\RedisUtil;
 class Ali
 {
 	public static function getali(){
+		ini_set("display_errors", "Off");
 
 		$time = 5;
 
