@@ -8,6 +8,7 @@
 </head>
 <body >
 <input type="text" name="id" id="id" value="36630828" />
+<input type="text" name="keyword" id="keyword" value="中山,江门,深圳" />
 <button id="btn" onclick="start()">开始</button>
 <button id="btn" onclick="stop()">停止</button>
 <button id="btn" onclick="clean()">清除</button>
@@ -40,6 +41,7 @@
 	var t1 = setInterval('myrefresh()',2000); //指定1秒刷新一次 
 	thisID = $("#id");
 	thead = $("#thead");
+	thiskeyword = $("#keyword");
 
 	function play() {
 		var audio = document.getElementById('audio1'); 
@@ -53,7 +55,8 @@
 	function getData() 
 	{ 
 		var id = thisID.val()
-		$.get("/",{ g: 'Test', c: 'Api', f: 'getali', id: id,p: p}, function(result){
+		var keyword = thiskeyword.val()
+		$.get("/",{ g: 'Test', c: 'Api', f: 'getali', id: id,keyword: keyword,p: p}, function(result){
 			if (result.id == id) {
 				return ;
 			};

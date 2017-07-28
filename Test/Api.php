@@ -37,6 +37,9 @@ class Api extends \Test\ApiBase
 
 	public static function getali(){
 		$id = $_GET['id'];
+		$keyword = $_GET['keyword'];
+		$keyword = str_replace('，',',',$keyword);
+		$keyword = explode(',', $keyword);
 		$p = $_GET['p'];
 		$where['id'] = array('>'=>$id);
 		$where['order'] ='id asc';
@@ -45,11 +48,16 @@ class Api extends \Test\ApiBase
 		$status = 0;
 		$result = '';
 		foreach ($data as $key => &$value) {
-			if (strpos($value['company'].$value['city'], '福田')) {
-				$status = 1;
-				$value['company'] = str_replace('福田', '<span style="color:red;">福田</span>', $value['company']);
-				$value['city'] = str_replace('福田', '<span style="color:red;">福田</span>', $value['city']);
+			if (!empty($keyword)&&is_array($keyword)) {
+				foreach ($keyword as $key1 => $value1) {
+					if (strpos($value['company'].$value['city'], $value1)) {
+						$status = 1;
+						$value['company'] = str_replace($value1, '<span style="color:red;">'.$value1.'</span>', $value['company']);
+						$value['city'] = str_replace($value1, '<span style="color:red;">'.$value1.'</span>', $value['city']);
+					}
+				}
 			}
+			
 			$id = $value['id'];
 			$result .= self::getTable($value);
 		}
