@@ -20,7 +20,7 @@ class Api extends \Test\ApiBase
 		Session_start(); 
 		$sessionId = session_id();//得到sessionid
 		if (!RedisUtil::exists($sessionId)) {
-	  		header("location: http://ali.liiking.com/?g=Test&c=Api&f=login");
+		    echo 'f**********ck？？？？';
 			exit();
 		}else{
 			return true;
@@ -73,13 +73,12 @@ class Api extends \Test\ApiBase
 			  		header("location: /tpl/index.html");
 					exit;
 			  	}else{
-			    echo 'f**********ck？？？？';
+				    echo 'f**********ck？？？？';
 			  		// header("location: http://www.shell.com/?g=Test&c=Api&f=login");
 					exit();
 			  	}
 			  }
 		}
-		
 	}
 	public static function getali(){
 		if (self::sess()) {
