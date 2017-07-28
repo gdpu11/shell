@@ -103,17 +103,47 @@ class Api extends \Test\ApiBase
 		// $url = 'https://purchase.1688.com/favorites/add_to_favorites.htm?spm=a26105.207177701.0.0.moD856&content_type=COMPANY&content_id=88888888';
 	    $result = file_get_contents($url, false, $context);
 		sleep(1);
-		// print_r($result);
-		$result = iconv('GB2312', 'UTF-8//TRANSLIT//IGNOR', $result);
+		$result = iconv('gb2312','utf-8//TRANSLIT//IGNORE', $result);
 		preg_match_all('#\)\;\"\>(.*?)\<\/a\>\<\/dt\>#', $result, $data['name']);
-		preg_match_all('#\<span class=\"label\"\>(.*?)[.\r\n]#', $result, $data['user']);
-		preg_match_all('#https\:\/\/shop(.*?)1688\.com#', $result, $data['url']);
+		preg_match_all('#\<span class=\"label\"\>(.*?)[.\n]#', $result, $data['user']);
 		preg_match_all('#此信息收藏人气\:(.*?)<\/strong><\/p>#', $result, $data['hot']);
+		preg_match_all('#https\:\/\/shop(.*?)1688\.com#', $result, $data['url']);
 		// preg_match_all('#<dd class=\"mode\"><span class=\"label\">(.*?)<\/dd>#', $result, $data['mode']);
 		// preg_match_all('#<dd class=\"txt\"><span class=\"label\">(.*?)<\/dd>#', $result, $data['txt']);
 		preg_match_all('#\<dd class=\"city\"\>(.*?)\<\/dd\>#', $result, $data['city']);
-		print_r($url);
-		exit();
+		if (!isset($data['name'][1])||empty($data['name'][1])) {
+			// print_r(iconv('UTF-8', 'GB2312', $result));
+			$nullcount = RedisUtil::incr($startKey.'-nullcount');
+			if ($nullcount > $time) {
+				$id = RedisUtil::incr($startKey);
+				RedisUtil::set($startKey,$id-($time+1));
+				RedisUtil::set($startKey.'-nullcount',1);
+				print_r($id);
+				sleep(10);
+			}else{
+				print_r($id);
+			}
+			// RedisUtil::decr($startKey);
+		}else{
+			RedisUtil::set($startKey.'-nullcount',1);
+			foreach ($data['user'][1] as $key => &$value) {
+				$value = strip_tags($value);
+			}
+			$ali = array(
+				'id'=>$id,
+				'company'=>$data['name'][1][0],
+				'name'=>$data['user'][1][0],
+				'mode'=>$data['user'][1][1],
+				'main'=>$data['user'][1][2],
+				'hot'=>isset($data['hot'][1][0])?$data['hot'][1][0]:0,
+				'url'=>isset($data['url'][0][0])?$data['url'][0][0]:0,
+				'city'=>isset($data['city'][1][0])?$data['city'][1][0]:0,
+				'add_time'=>time(),
+				);
+			AliTABLE::addOne($ali);
+			print_r($id);
+			// AliTABLE::updateByWhere(array('id'=>$id),array('city'=>$ali['city']));
+		}
 
 	}
 

@@ -11,7 +11,7 @@ class Ali
 
 		$time = 5;
 
-		$startKey = __FUNCTION__.'a';
+		$startKey = __FUNCTION__.'b';
 		if (RedisUtil::exists($startKey)) {
 			// sleep(30);
 			$id = RedisUtil::incr($startKey);
@@ -55,7 +55,7 @@ class Ali
 		$url = 'https://purchase.1688.com/favorites/add_to_favorites.htm?spm=a26105.207177701.0.0.moD856&content_type=COMPANY&content_id='.$id;
 		// $url = 'https://purchase.1688.com/favorites/add_to_favorites.htm?spm=a26105.207177701.0.0.moD856&content_type=COMPANY&content_id=88888888';
 	    $result = file_get_contents($url, false, $context);
-		sleep(1);
+		// sleep(1);
 		$result = iconv('gb2312','utf-8//TRANSLIT//IGNORE', $result);
 		preg_match_all('#\)\;\"\>(.*?)\<\/a\>\<\/dt\>#', $result, $data['name']);
 		preg_match_all('#\<span class=\"label\"\>(.*?)[.\n]#', $result, $data['user']);
@@ -93,9 +93,9 @@ class Ali
 				'city'=>isset($data['city'][1][0])?$data['city'][1][0]:0,
 				'add_time'=>time(),
 				);
-			// AliTABLE::addOne($ali);
+			AliTABLE::addOne($ali);
 			print_r($id);
-			AliTABLE::updateByWhere(array('id'=>$id),array('city'=>$ali['city']));
+			// AliTABLE::updateByWhere(array('id'=>$id),array('city'=>$ali['city']));
 		}
 	}
 
