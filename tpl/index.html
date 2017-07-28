@@ -38,7 +38,7 @@
 	function getData() 
 	{ 
 		var id = thisID.val()
-		$.get("/Api/getali",{ id: id,p: p}, function(result){
+		$.get("/",{ g: 'Test', c: 'Api', f: 'getali', id: id,p: p}, function(result){
 			if (result.id == id) {
 				return ;
 			};
