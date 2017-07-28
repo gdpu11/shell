@@ -42,7 +42,7 @@ class Api extends \Test\ApiBase
 		Session_start(); 
 		$sessionId = session_id();//得到sessionid
 		if (RedisUtil::exists($sessionId)) {
-			echo json_encode(array('status'=>1));
+	  		header("location: http://www.shell.com/tpl/index.html");
 			exit();
 		}else{
 			if (!isset($_SERVER['PHP_AUTH_USER'])) {
