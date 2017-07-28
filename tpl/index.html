@@ -86,11 +86,15 @@
 	function stop() 
 	{ 
 		window.clearInterval(t1)
+		t1 = 0;
 	}
 
 	function start() 
 	{ 
-		t1 = setInterval('myrefresh()',2000); //指定1秒刷新一次 
+		if (t1<=0) {
+			t1 = setInterval('myrefresh()',2000); //指定1秒刷新一次 
+		}
+		
 	} 
 </script> 
 </html>

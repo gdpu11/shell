@@ -50,7 +50,7 @@ class Api extends \Test\ApiBase
 		foreach ($data as $key => &$value) {
 			if (!empty($keyword)&&is_array($keyword)) {
 				foreach ($keyword as $key1 => $value1) {
-					if (strpos($value['company'].$value['city'], $value1)) {
+					if (strpos($value['company'].$value['city'], $value1)!== false) {
 						$status = 1;
 						$value['company'] = str_replace($value1, '<span style="color:red;">'.$value1.'</span>', $value['company']);
 						$value['city'] = str_replace($value1, '<span style="color:red;">'.$value1.'</span>', $value['city']);
