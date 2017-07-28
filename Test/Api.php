@@ -9,6 +9,7 @@ use DB\AliTABLE;
 use DB\DBConnect;
 use Utils\CurlUtils;
 use Utils\Common;
+use Utils\RedisUtil;
 class Api extends \Test\ApiBase 
 {
 	/**
@@ -35,7 +36,41 @@ class Api extends \Test\ApiBase
 	    </tfoot>";
 	}
 
+	public static function login(){
+		$user = 'lan';
+		$pasww = 'lanali1688';
+		Session_start(); 
+		$sessionId = session_id();//得到sessionid
+		if (RedisUtil::exists($sessionId)) {
+			echo json_encode(array('status'=>1));
+			exit();
+		}else{
+			if (!isset($_SERVER['PHP_AUTH_USER'])) {
+			    header('WWW-Authenticate: Basic realm="My Realm"');
+			    header('HTTP/1.0 401 Unauthorized');
+			    echo 'Text to send if user hits Cancel button';
+			    exit;
+			  } else {
+			  	if ($_SERVER['PHP_AUTH_USER']==$user&&$pasww==$_SERVER['PHP_AUTH_PW']) {
+					RedisUtil::set($sessionId,'1');
+			  		header("location: http://www.shell.com/tpl/index.html");
+					exit;
+			  	}else{
+			  		echo 'fuck';
+			  		// header("location: http://www.shell.com/?g=Test&c=Api&f=login");
+					exit();
+			  	}
+			  }
+		}
+		
+	}
 	public static function getali(){
+		Session_start(); 
+
+		$sessionId = session_id();//得到sessionid
+
+		if (RedisUtil::exists($sessionId)) {
+
 		$id = $_GET['id'];
 		$keyword = $_GET['keyword'];
 		$keyword = str_replace('，',',',$keyword);
@@ -64,6 +99,7 @@ class Api extends \Test\ApiBase
 		}
 		echo json_encode(array('id'=>$id,'data'=>$result,'status'=>$status,'newid'=>$newid['id']));
 		exit();
+		}
 	}
 
 	public static function getSSali(){
