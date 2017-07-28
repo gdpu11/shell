@@ -56,7 +56,7 @@ class Ali
 		// $url = 'https://purchase.1688.com/favorites/add_to_favorites.htm?spm=a26105.207177701.0.0.moD856&content_type=COMPANY&content_id=88888888';
 	    $result = file_get_contents($url, false, $context);
 		sleep(1);
-		$result = iconv('GB2312', 'UTF-8', $result);
+		$result = iconv('gb2312','utf-8//TRANSLIT//IGNORE', $result);
 		preg_match_all('#\)\;\"\>(.*?)\<\/a\>\<\/dt\>#', $result, $data['name']);
 		preg_match_all('#\<span class=\"label\"\>(.*?)[.\n]#', $result, $data['user']);
 		preg_match_all('#此信息收藏人气\:(.*?)<\/strong><\/p>#', $result, $data['hot']);

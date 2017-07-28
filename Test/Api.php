@@ -42,12 +42,18 @@ class Api extends \Test\ApiBase
 		$where['order'] ='id asc';
 		$sums = AliTABLE::getsums($where);
 		$data = AliTABLE::getAlls($where,$p,1);
+		$status = 0;
 		$result = '';
-		foreach ($data as $key => $value) {
+		foreach ($data as $key => &$value) {
+			if (strpos($value['company'].$value['city'], '福田')) {
+				$status = 1;
+				$value['company'] = str_replace('福田', '<span style="color:red;">福田</span>', $value['company']);
+				$value['city'] = str_replace('福田', '<span style="color:red;">福田</span>', $value['city']);
+			}
 			$id = $value['id'];
 			$result .= self::getTable($value);
 		}
-		echo json_encode(array('id'=>$id,'data'=>$result));
+		echo json_encode(array('id'=>$id,'data'=>$result,'status'=>$status));
 		exit();
 	}
 

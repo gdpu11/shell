@@ -11,6 +11,10 @@
 <button id="btn" onclick="start()">开始</button>
 <button id="btn" onclick="stop()">停止</button>
 <button id="btn" onclick="clean()">清除</button>
+<audio  style='display:none;' id="audio1" width="420" >
+    <source src="/tpl/public/audio/1.mp3" type="audio/mp3" />
+    <source src="example.ogg" type="audio/ogg" />
+</audio>
 <table id="travel" >
 	<!-- <caption>啊啊啊</caption> -->
     <thead >    
@@ -31,16 +35,30 @@
 </table>
 </body>
 <script language="JavaScript"> 
+
 	var p =1;
 	var t1 = setInterval('myrefresh()',2000); //指定1秒刷新一次 
 	thisID = $("#id");
 	thead = $("#thead");
+
+	function play() {
+		var audio = document.getElementById('audio1'); 
+	     if(audio.paused){                 
+	         audio.play();//audio.play();// 播放  
+	     }
+	     else{
+	          audio.pause();// 暂停
+	     }
+	}
 	function getData() 
 	{ 
 		var id = thisID.val()
 		$.get("/",{ g: 'Test', c: 'Api', f: 'getali', id: id,p: p}, function(result){
 			if (result.id == id) {
 				return ;
+			};
+			if (result.status == 1) {
+				play();
 			};
 		    // thead.after(result.data);
 		    thead.prepend(result.data);
