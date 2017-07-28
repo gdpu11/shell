@@ -1,6 +1,8 @@
 <?php
 ini_set("display_errors", "On");
 error_reporting(E_ALL | E_STRICT);
+print_r($_SERVER);
+exit();
 // phpinfo();
 // 定义一个值为服务端根路径的常量 ROOT_PATH
 if ('\\' === DIRECTORY_SEPARATOR) // Windows 环境下
@@ -21,7 +23,8 @@ function autoLoad($className){
     include(ROOT_PATH.implode("/", $arr).'.php');
 }
 spl_autoload_register('autoLoad');
-print_r($_SERVER);exit();
+print_r($_SERVER);
+exit();
 $arr = explode("/", $_SERVER['REDIRECT_URL']);
 $arr[1] = 'Test\\'.ucfirst($arr[1]);
 $arr[1]::$arr[2]();
