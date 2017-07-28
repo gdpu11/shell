@@ -43,6 +43,7 @@ class Api extends \Test\ApiBase
 		$p = $_GET['p'];
 		$where['id'] = array('>'=>$id);
 		$where['order'] ='id asc';
+		$newid = AliTABLE::getOne(array('order'=>' id desc'));
 		$sums = AliTABLE::getsums($where);
 		$data = AliTABLE::getAlls($where,$p,1);
 		$status = 0;
@@ -61,7 +62,7 @@ class Api extends \Test\ApiBase
 			$id = $value['id'];
 			$result .= self::getTable($value);
 		}
-		echo json_encode(array('id'=>$id,'data'=>$result,'status'=>$status));
+		echo json_encode(array('id'=>$id,'data'=>$result,'status'=>$status,'newid'=>$newid['id']));
 		exit();
 	}
 
