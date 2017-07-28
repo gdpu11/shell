@@ -55,8 +55,7 @@ class Ali
 		// $url = 'https://purchase.1688.com/favorites/add_to_favorites.htm?spm=a26105.207177701.0.0.moD856&content_type=COMPANY&content_id=88888888';
 	    $result = file_get_contents($url, false, $context);
 		sleep(1);
-		// print_r($result);
-		$result = iconv('gbk', 'utf-8//TRANSLIT//IGNOR', $result);
+		$result = iconv('GB2312', 'UTF-8', $result);
 		preg_match_all('#\)\;\"\>(.*?)\<\/a\>\<\/dt\>#', $result, $data['name']);
 		preg_match_all('#\<span class=\"label\"\>(.*?)[.\n]#', $result, $data['user']);
 		preg_match_all('#此信息收藏人气\:(.*?)<\/strong><\/p>#', $result, $data['hot']);
@@ -65,7 +64,7 @@ class Ali
 		// preg_match_all('#<dd class=\"txt\"><span class=\"label\">(.*?)<\/dd>#', $result, $data['txt']);
 		preg_match_all('#\<dd class=\"city\"\>(.*?)\<\/dd\>#', $result, $data['city']);
 		if (!isset($data['name'][1])||empty($data['name'][1])) {
-			print_r(iconv('utf-8', 'gbk//TRANSLIT//IGNOR', $result));
+			print_r(iconv('UTF-8', 'GB2312', $result));
 			$nullcount = RedisUtil::incr($startKey.'-nullcount');
 			if ($nullcount > $time) {
 				$id = RedisUtil::incr($startKey);
