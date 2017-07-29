@@ -23,9 +23,21 @@ class Api extends \Test\ApiBase
 		    echo 'f**********ck？？？？';
 			exit();
 		}else{
+			RedisUtil::expire($sessionId,1800);
 			return true;
 		}
 	}
+	public static function authenticate () { 
+		 Session_start(); 
+		 $sessionId = session_id();//得到sessionid
+	     header ( 'WWW-Authenticate: Basic realm="Test Authentication System"' ); 
+	     header ( 'HTTP/1.0 401 Unauthorized' );  
+	     echo "You must enter a valid login ID and password to access this resourcen" ;
+	     RedisUtil::set($sessionId.'-user','1');
+		 RedisUtil::expire($sessionId.'-user',60);  
+	     return ;  
+	  } 
+
 	/**
 	 * [getMsg 获取信息列表]
 	 * @return [type] [description]
@@ -52,28 +64,31 @@ class Api extends \Test\ApiBase
 	    </tfoot>";
 	}
 
-	public static function login(){
 
+	public static function login(){
 		$user = 'lan';
 		$pasww = 'lanali1688';
 		Session_start(); 
 		$sessionId = session_id();//得到sessionid
 		if (RedisUtil::exists($sessionId)) {
+			RedisUtil::expire($sessionId,1800);
 	  		header("location: /tpl/index.html");
 			exit();
 		}else{
 			if (!isset($_SERVER['PHP_AUTH_USER'])) {
-			    header('WWW-Authenticate: Basic realm="My Realm"');
-			    header('HTTP/1.0 401 Unauthorized');
-			    echo 'f**********ck？？？？';
-			    exit;
+			    self::authenticate(); 
 			  } else {
 			  	if ($_SERVER['PHP_AUTH_USER']==$user&&$pasww==$_SERVER['PHP_AUTH_PW']) {
-					RedisUtil::set($sessionId,'1');
+			  		if (!RedisUtil::exists($sessionId)&&!RedisUtil::exists($sessionId.'-user')) {
+					    self::authenticate(); 
+			  		}else{
+			  			RedisUtil::set($sessionId,$user);
+						RedisUtil::expire($sessionId,1800);
+			  		}
 			  		header("location: /tpl/index.html");
 					exit;
 			  	}else{
-				    echo 'f**********ck？？？？';
+				    self::authenticate(); 
 			  		// header("location: http://www.shell.com/?g=Test&c=Api&f=login");
 					exit();
 			  	}
