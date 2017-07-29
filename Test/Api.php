@@ -66,8 +66,12 @@ class Api extends \Test\ApiBase
 
 
 	public static function login(){
-		$user = 'lan';
-		$pasww = 'lanali1688';
+		$user = array(
+			'lan'=>'lanali1688',
+			'user1'=>'FAghGDOIs',
+			'user2'=>'gdGIUGgJU2',
+			'user3'=>'jgGugFhnI2',
+			);
 		Session_start(); 
 		$sessionId = session_id();//得到sessionid
 		if (RedisUtil::exists($sessionId)) {
@@ -78,20 +82,26 @@ class Api extends \Test\ApiBase
 			if (!isset($_SERVER['PHP_AUTH_USER'])) {
 			    self::authenticate(); 
 			  } else {
-			  	if ($_SERVER['PHP_AUTH_USER']==$user&&$pasww==$_SERVER['PHP_AUTH_PW']) {
-			  		if (!RedisUtil::exists($sessionId)&&!RedisUtil::exists($sessionId.'-user')) {
+			  	if (!empty($_SERVER['PHP_AUTH_USER'])&&!empty($_SERVER['PHP_AUTH_PW'])) {
+			  		if (isset($user[$_SERVER['PHP_AUTH_USER']])&&$user[$_SERVER['PHP_AUTH_USER']]==$_SERVER['PHP_AUTH_PW']) {
+				  		if (!RedisUtil::exists($sessionId)&&!RedisUtil::exists($sessionId.'-user')) {
+						    self::authenticate(); 
+				  		}else{
+				  			RedisUtil::set($sessionId,$user);
+							RedisUtil::expire($sessionId,1800);
+				  		}
+				  		header("location: /tpl/index.html");
+						exit;
+				  	}else{
 					    self::authenticate(); 
-			  		}else{
-			  			RedisUtil::set($sessionId,$user);
-						RedisUtil::expire($sessionId,1800);
-			  		}
-			  		header("location: /tpl/index.html");
-					exit;
+				  		// header("location: http://www.shell.com/?g=Test&c=Api&f=login");
+						exit();
+				  	}
 			  	}else{
-				    self::authenticate(); 
-			  		// header("location: http://www.shell.com/?g=Test&c=Api&f=login");
-					exit();
+					    self::authenticate(); 
+						exit();
 			  	}
+			  	
 			  }
 		}
 	}
