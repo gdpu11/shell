@@ -35,7 +35,7 @@ class Api extends \Test\ApiBase
 	     echo "You must enter a valid login ID and password to access this resourcen" ;
 	     RedisUtil::set($sessionId.'-user','1');
 		 RedisUtil::expire($sessionId.'-user',60);  
-	     return ;  
+	     exit() ;  
 	  } 
 
 	/**
