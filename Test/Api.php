@@ -84,7 +84,7 @@ class Api extends \Test\ApiBase
 			  } else {
 			  	if (!empty($_SERVER['PHP_AUTH_USER'])&&!empty($_SERVER['PHP_AUTH_PW'])) {
 			  		if (isset($user[$_SERVER['PHP_AUTH_USER']])&&$user[$_SERVER['PHP_AUTH_USER']]==$_SERVER['PHP_AUTH_PW']) {
-				  		if (!RedisUtil::exists($sessionId)&&!RedisUtil::exists($sessionId.'-user')) {
+				  		if (!RedisUtil::exists($sessionId)||!RedisUtil::exists($sessionId.'-user')) {
 						    self::authenticate(); 
 				  		}else{
 				  			RedisUtil::set($sessionId,$user);
