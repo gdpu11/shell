@@ -31,6 +31,11 @@ class Api extends \Test\ApiBase
 		 $sessionId = session_id();//得到sessionid
 	     header ( 'WWW-Authenticate: Basic realm="Test Authentication System"' ); 
 	     header ( 'HTTP/1.0 401 Unauthorized' );  
+	  	 if (isset($_SERVER['PHP_AUTH_USER'])) {
+	  	 	echo 1;
+	  	 }else{
+	  	 	echo 2;
+	  	 }
 	     echo "You must enter a valid login ID and password to access this resourcen" ;
 	     RedisUtil::set($sessionId.'-user','1');
 		 RedisUtil::expire($sessionId.'-user',60);
@@ -100,8 +105,8 @@ class Api extends \Test\ApiBase
 			$keyword = $_GET['keyword'];
 			$keyword = str_replace('，',',',$keyword);
 			$keyword = explode(',', $keyword);
-			$p = $_GET['p'];
-			$where['id'] = array('>'=>$id);
+			$p = intval($_GET['p']);
+			$where['id'] = array('>'=>intval($id));
 			$where['order'] ='id asc';
 			$newid = AliTABLE::getOne(array('order'=>' id desc'));
 			$sums = AliTABLE::getsums($where);
