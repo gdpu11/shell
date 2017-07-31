@@ -28,13 +28,12 @@ class Api extends \Test\ApiBase
 		}
 	}
 	public static function authenticate () { 
-		 Session_start(); 
 		 $sessionId = session_id();//得到sessionid
 	     header ( 'WWW-Authenticate: Basic realm="Test Authentication System"' ); 
 	     header ( 'HTTP/1.0 401 Unauthorized' );  
 	     echo "You must enter a valid login ID and password to access this resourcen" ;
 	     RedisUtil::set($sessionId.'-user','1');
-		 RedisUtil::expire($sessionId.'-user',60);  
+		 RedisUtil::expire($sessionId.'-user',60);
 	     exit(); ;  
 	  } 
 
