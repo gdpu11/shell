@@ -100,7 +100,6 @@ class Api extends \Test\ApiBase
 		}
 	}
 	public static function getali(){
-		exit();
 		if (self::sess()) {
 			$id = $_GET['id'];
 			$keyword = $_GET['keyword'];
