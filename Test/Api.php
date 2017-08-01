@@ -70,8 +70,12 @@ class Api extends \Test\ApiBase
 
 
 	public static function login(){
-		$user = 'lan';
-		$pasww= 'fdsaKjDs';
+
+		$user = array(
+			'lan'=>'fdsaKjDs',
+			'a'=>'123f45fD',
+			'b'=>'DGF4fdsa',
+			);
 		Session_start(); 
 		$sessionId = session_id();//得到sessionid
 		if (RedisUtil::exists($sessionId)) {
@@ -82,7 +86,7 @@ class Api extends \Test\ApiBase
 			if (!isset($_SERVER['PHP_AUTH_USER'])) {
 			    self::authenticate(); 
 			  } else {
-			  	if ($_SERVER['PHP_AUTH_USER']==$user&&$pasww==$_SERVER['PHP_AUTH_PW']) {
+			  	if (isset($_SERVER['PHP_AUTH_USER'])&&!empty($_SERVER['PHP_AUTH_USER'])&&isset($user[$_SERVER['PHP_AUTH_USER']])&&$user[$_SERVER['PHP_AUTH_USER']]==$_SERVER['PHP_AUTH_PW']) {
 			  		if (!RedisUtil::exists($sessionId)&&!RedisUtil::exists($sessionId.'-user')) {
 					    self::authenticate(); 
 			  		}else{
