@@ -6,7 +6,12 @@ use Utils\RedisUtil;
 use Utils\CurlUtils;
 
 class Ali
-{
+{ 
+	private static $keyword = array('中山','江门','珠海');
+
+	private static function sendMsg(){
+		self::send("11111111111");
+	}
 	public static function login(){
 		$data = array(
 				'TPL_username'=>'455019211@qq.com',
@@ -229,8 +234,16 @@ class Ali
 				'city'=>isset($data['city'][1][0])?$data['city'][1][0]:0,
 				'add_time'=>time(),
 				);
+			$status = 0;
+			foreach (self::$keyword as $key => $value) {
+				if (strpos($ali['company'].$ali['city'], $value)!== false) {
+					$status = 1;
+				}
+			}
+			if ($status == 1) {
+				self::send("<a target='_blank' href='".$ali['url']."'>{$ali['company']}</a>");
+			}
 			AliTABLE::addOne($ali);
-			print_r($id);
 			// AliTABLE::updateByWhere(array('id'=>$id),array('city'=>$ali['city']));
 		}
 	}
@@ -242,5 +255,28 @@ class Ali
 			self::getali();
 		}		
 	}
-	
+
+	private static function getAccessToken(){
+		if (!RedisUtil::exists('access_token')) {
+			$out = CurlUtils::sendGet('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx44a3fd1cc1e43b48&secret=9746ffe36ee46fb1d5ab7725f2fe2d4f');
+			$out = json_decode($out);
+			if (isset($out->access_token)) {
+				RedisUtil::set('access_token',$out->access_token);
+				RedisUtil::expire('access_token',$out->expires_in);
+				return $out->access_token;
+			}
+		}else{
+			return RedisUtil::get('access_token');
+		}
+	}
+
+	private static function send($content = 'hello'){
+		$ac_to = self::getAccessToken();
+		$url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$ac_to;
+		$json1 = json_encode(array('touser' => 'oaOXBvmiNQX2HLEtD2YamCuhws6M', 'msgtype' => 'text', 'text' => array('content'=>$content)));
+		$json2 = json_encode(array('touser' => 'oaOXBvs3ilOM1Qsu747wz0dRvg54', 'msgtype' => 'text', 'text' => array('content'=>$content)));
+		CurlUtils::http_post_json($url, $json1);
+		CurlUtils::http_post_json($url, $json2);
+		exit();
+	}
 }

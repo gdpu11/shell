@@ -12,6 +12,7 @@ use Utils\Common;
 use Utils\RedisUtil;
 class Api extends \Test\ApiBase 
 {
+	
 	/**
 	 * [getMsg 获取信息列表]
 	 * @return [type] [description]
@@ -27,6 +28,7 @@ class Api extends \Test\ApiBase
 			return true;
 		}
 	}
+
 	public static function authenticate () { 
 		 $sessionId = session_id();//得到sessionid
 	     header ( 'WWW-Authenticate: Basic realm="Test Authentication System"' ); 
@@ -40,7 +42,7 @@ class Api extends \Test\ApiBase
 	     RedisUtil::set($sessionId.'-user','1');
 		 RedisUtil::expire($sessionId.'-user',60);
 	     exit(); ;  
-	  } 
+	} 
 
 	/**
 	 * [getMsg 获取信息列表]
