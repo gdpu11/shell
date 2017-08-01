@@ -9,7 +9,7 @@ class Ali
 { 
 	private static $keyword = array('中山','江门','珠海');
 
-	public static function sendMsg(){
+	private static function sendMsg(){
 		$ali = AliTABLE::getOne(array('id'=>36615040));
 		$status =0;
 		foreach (self::$keyword as $key => $value) {
