@@ -71,7 +71,7 @@ class Api extends \Test\ApiBase
 
 	public static function login(){
 		$user = 'lan';
-		$pasww = 'lanali1688';
+		$pasww= 'fdsaKjDs';
 		Session_start(); 
 		$sessionId = session_id();//得到sessionid
 		if (RedisUtil::exists($sessionId)) {
