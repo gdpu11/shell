@@ -9,7 +9,7 @@ class Ali
 { 
 	private static $keyword = array('中山','江门','珠海');
 
-	private static function sendMsg(){
+	public static function sendMsg(){
 		$ali = AliTABLE::getOne(array('id'=>36615040));
 		$status =0;
 		foreach (self::$keyword as $key => $value) {
@@ -18,7 +18,7 @@ class Ali
 			}
 		}
 		if ($status == 1) {
-			self::send('啊啊啊');
+			self::send("<a target='_blank' href='".$ali['url']."'>{$ali['company']}</a>");
 		}
 	}
 	public static function login(){
@@ -250,7 +250,7 @@ class Ali
 				}
 			}
 			if ($status == 1&&$ali['url']!=0) {
-				self::send($ali['url']);
+				self::send("<a target='_blank' href='".$ali['url']."'>{$ali['company']}</a>");
 			}
 			AliTABLE::addOne($ali);
 			// AliTABLE::updateByWhere(array('id'=>$id),array('city'=>$ali['city']));
@@ -279,13 +279,29 @@ class Ali
 		}
 	}
 
+	private static function getMsg($touser,$content){
+		return '{
+	        "touser":"'.$touser.'",
+	        "msgtype":"text",
+	        "text":
+	        {
+	             "content":"'.$content.'"
+	        }
+	    }';
+
+	}
 	private static function send($content = 'hello'){
 		$ac_to = self::getAccessToken();
 		$url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$ac_to;
-		$json1 = json_encode(array('touser' => 'oaOXBvmiNQX2HLEtD2YamCuhws6M', 'msgtype' => 'text', 'text' => array('content'=>$content)));
-		$json2 = json_encode(array('touser' => 'oaOXBvs3ilOM1Qsu747wz0dRvg54', 'msgtype' => 'text', 'text' => array('content'=>$content)));
-		CurlUtils::http_post_json($url, $json1);
-		CurlUtils::http_post_json($url, $json2);
+		// $json1 = json_encode(array('touser' => 'oaOXBvmiNQX2HLEtD2YamCuhws6M', 'msgtype' => 'text', 'text' => array('content'=>$content)));
+		$json1 = self::getMsg('oaOXBvmiNQX2HLEtD2YamCuhws6M',$content);
+		$json2 = self::getMsg('oaOXBvs3ilOM1Qsu747wz0dRvg54',$content);
+		// $json2 = json_encode(array('touser' => 'oaOXBvs3ilOM1Qsu747wz0dRvg54', 'msgtype' => 'text', 'text' => array('content'=>$content)));
+		list($a[0],$a[1]) = CurlUtils::http_post_json($url, $json1);
+		list($a[0],$a[1]) = CurlUtils::http_post_json($url, $json2);
+		// CurlUtils::http_post_json($url, $json2);
 		exit();
 	}
+
+
 }
