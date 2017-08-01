@@ -115,7 +115,7 @@ class CurlUtils
 
 	public static function aliCurl($url) {
 		$cookie = 'JSESSIONID=9L78l9qw1-dN1Ys1U4W2Dl9kRgPA-eM0kMQQ-nyOL; cna=5uTkEdtdcxACAQ4S7LvKDQbv; cookie1=BdM0yO4M2ve2%2F6GBip3tA89bd6%2BmJx%2FVgCZmCbXANS4%3D; cookie2=1c0f323d2e4bef75f7c8bfc201b45ebe; cookie17=Uoe0bUt%2F%2FrCnPw%3D%3D; uss=UR2NjczBazSjTiff9ZPW0axmpnw46Nz%2BcI3Ftxe3INNM9hGEZcXM%2Bp1a3w%3D%3D; t=a02544b73a9fd263e867b8638e17a6f4; _tb_token_=e671eefb3bb3e; sg=157; __cn_logon__=true; __cn_logon_id__=gdpu11; ali_apache_track="c_ms=1|c_mid=b2b-1600327515|c_lid=gdpu11"; ali_apache_tracktmp="c_w_signed=Y"; cn_tmp="Z28mC+GqtZ1waru4w6kjau/aRCobqNdabaWTDqYYOYjx3BJZf9BR447G9TsJcO8n+elQ6kMpFECVhh8zoVBIg69y/rSD9ppJ5s4rM6nX098I0hqsYx2ZnU+Ti/4INuzXqlfNtz4ZlhpNWFXblkqsCnJ5uOy8BKO3X2IiO+k9/wt836lf2VgRNb2bnC2ggVF3uFBb59wFm28cvRKfVupE98ifIp41Eyo1zyDQNMk6XE4="; _cn_slid_=vbQEJ44hHm; tbsnid=OM7YsQqTUl9t9vV%2FsSRU8mgfXErszIa%2BlysU6PGaSIc6sOlEpJKl9g%3D%3D; LoginUmid="8Sqcaf5aU%2FD8dlhkB5NTCPI%2FbyJwsOAvccw36LNHa49TG4BC5yy9jw%3D%3D"; userID="%2BTZ1ATiQ%2BU6K%2FhvPk1RWIUYghLzxWWn%2B%2BsGi33baZlM6sOlEpJKl9g%3D%3D"; last_mid=b2b-1600327515; unb=1600327515; __last_loginid__=gdpu11; login="kFeyVBJLQQI%3D"; _csrf_token=1500961647943; _is_show_loginId_change_block_=b2b-1600327515_false; _show_force_unbind_div_=b2b-1600327515_false; _show_sys_unbind_div_=b2b-1600327515_false; _show_user_unbind_div_=b2b-1600327515_false; UM_distinctid=15d7855b21f3ee-094d01276b6842-1571466f-1fa400-15d7855b220586; ali_ab=14.215.172.196.1500962471158.5; alicnweb=lastlogonid%3Dgdpu11%7Ctouch_tb_at%3D1500965244177; userIDNum=lDtWkCp106nFSJDXntqVGw%3D%3D; _nk_=rS6M4t5tu9E%3D; __rn_alert__=false; _tmp_ck_0="t9wOA%2BIRt2AxvGEoshUuDHE3zL3BBA5JHVWfr9%2BYLulZRQikiDdDioqsJUIBqjD%2BVsnuvIu7QQvNB4Wt%2BPBNuyQkX9XRHmZMYmtdz71hS9Q9vE5Toe%2FuxWSoXRxDdSvWnyBbGWFjuuLosXr2CnBl3UXIqx02ruSZ9J3JbnZsV%2BKEN6yQTBopJykS0Kq6KRkBePW4MVOQqS1kr6lBJfwMy%2F7aC33%2BlOuRjB%2BZGfKQ%2FBOp1d1l5FYtP8%2FE2U%2FdIqqddAHXcUej4%2Fk06YcE0zkf8YDTqDUy%2BadQUabsh2lZdk6EXC%2Byk5d%2BkCVMr%2BWwrMQiqOXr2L%2FJVhJ8vaG6Sq2N1oDQRm42ahtsvxyNstwFOXmdGrlHXRb5dZ9yfyhKnsL7OiWKaARm4e8QE6QQCDbZw%2FW0wBkYkhN3fj4fOekX2%2Bh4c3cPFBEl1DCdKZPwPzWyeZXxtny9aDcIDxWZOBjqiepHW81Sx9JvQuscviifi2FzIFrPPHBQPtmVCqQqAcv7OM3ylBRDTNa0hhT1CqJL9%2FeXeksFz2xAhlpX5mO8PcY%3D"; isg=AqqqAbeuhxOi6gt_v4viSi-n9RCMs550Y7E6HDRjVv2IZ0ohHKt-hfAVg4wf';
-		
+
 		$ip = self::get_rand_ip();
 		// $header = array(
 		// 	'Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
@@ -285,29 +285,48 @@ class CurlUtils
 	 * @param string $error			错误内容 - 回调返回
 	 * @return string
 	 */
-	public static function sendPost($url , $param = array() , $cookieFile = null, &$error = null)
+	public static function sendPost($url , $data = array() , $headers = array(),$status = false)
 	{
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $url);
-		curl_setopt($ch, CURLOPT_HEADER, 0);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		//https
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //不验证证书
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); //不验证证书
-	    $user_agent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36 SE 2.X MetaSr 1.0';  
-	    curl_setopt ($ch, CURLOPT_USERAGENT, $user_agent);  
+		//  初始化
+	    $ch = curl_init();
+	    //CURLOPT_URL 是指提交到哪里？相当于表单里的“action”指定的路径
+	    //  设置变量
+	    curl_setopt($ch, CURLOPT_URL, $url);
+	    
+	    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//执行结果是否被返回，0是返回，1是不返回
+	    // curl_setopt($ch, CURLOPT_HEADER, 0);//参数设置，是否显示头部信息，1为显示，0为不显示
+	    // 伪造网页来源地址,伪造来自百度的表单提交
+	    // curl_setopt($ch, CURLOPT_REFERER, "http://www.baidu.com");
+	    if ($headers) {
+			curl_setopt($ch, CURLOPT_HEADER, 1);
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+			curl_setopt($ch, CURLINFO_HEADER_OUT, TRUE);
+		}
 
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
-		curl_setopt($ch, CURLOPT_TIMEOUT, 3);
-		if(!is_null($cookieFile))
-			curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFile);
-		$output = curl_exec($ch);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	    //表单数据，是正规的表单设置值为非0
+	    curl_setopt($ch, CURLOPT_POST, 1);
+	    curl_setopt($ch, CURLOPT_TIMEOUT, 50);//设置curl执行超时时间最大是多少
+	    //使用数组提供post数据时，CURL组件大概是为了兼容@filename这种上传文件的写法，
+	    //默认把content_type设为了multipart/form-data。虽然对于大多数web服务器并
+	    //没有影响，但是还是有少部分服务器不兼容。本文得出的结论是，在没有需要上传文件的
+	    //情况下，尽量对post提交的数据进行http_build_query，然后发送出去，能实现更好的兼容性，更小的请求数据包。
+	    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+	    //   执行并获取结果
+	    $output = curl_exec($ch);
+        
 		if ($output === FALSE)
 		{
 			throw new \Exception(curl_error($ch), 1);
 		}
-		self::$_curlInfo = curl_getinfo($ch);
+		if ($status===true) {
+			// 获得响应结果里的：头大小
+			$headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+			// 根据头大小去获取头信息内容
+			$header = substr($output, 0, $headerSize);
+			curl_close($ch);
+			return array($output,$header);
+		}
 		curl_close($ch);
 		return $output;
 	}
