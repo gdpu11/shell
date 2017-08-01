@@ -141,7 +141,7 @@ class Ali
 	    print_r($result);
 	    exit();
 	}
-	
+
 	public static function getali(){
 		ini_set("display_errors", "Off");
 
@@ -200,6 +200,7 @@ class Ali
 		// preg_match_all('#<dd class=\"mode\"><span class=\"label\">(.*?)<\/dd>#', $result, $data['mode']);
 		// preg_match_all('#<dd class=\"txt\"><span class=\"label\">(.*?)<\/dd>#', $result, $data['txt']);
 		preg_match_all('#\<dd class=\"city\"\>[.\n](.*?)[.\n]#', $result, $data['city']);
+		print_r($result);exit();
 		if (!isset($data['name'][1])||empty($data['name'][1])) {
 			// print_r(iconv('UTF-8', 'GB2312', $result));
 			$nullcount = RedisUtil::incr($startKey.'-nullcount');
