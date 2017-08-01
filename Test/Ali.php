@@ -141,18 +141,19 @@ class Ali
 	    print_r($result);
 	    exit();
 	}
+	
 	public static function getali(){
 		ini_set("display_errors", "Off");
 
 		$time = 5;
 
-		$startKey = __FUNCTION__.'c';
+		$startKey = __FUNCTION__.'a';
 		if (RedisUtil::exists($startKey)) {
 			// sleep(30);
 			$id = RedisUtil::incr($startKey);
 			// RedisUtil::expire($startKey,30);
 		}else{
-			$id = 36633664;
+			$id = 36636224;
 			RedisUtil::set($startKey,$id);
 		}
 		$content =  "Content-Disposition: form-data; 
