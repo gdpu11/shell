@@ -9,7 +9,7 @@ class Ali
 { 
 	private static $keyword = array('中山','江门','珠海');
 
-	public static function sendMsg(){
+	private static function sendMsg(){
 		$ali = AliTABLE::getOne(array('id'=>36615040));
 		$status =0;
 		foreach (self::$keyword as $key => $value) {
@@ -18,7 +18,7 @@ class Ali
 			}
 		}
 		if ($status == 1) {
-			self::send("$ali['company']");
+			self::send('啊啊啊');
 		}
 	}
 	public static function login(){
@@ -249,8 +249,8 @@ class Ali
 					$status = 1;
 				}
 			}
-			if ($status == 1) {
-				self::send($ali['company']);
+			if ($status == 1&&$ali['url']!=0) {
+				self::send($ali['url']);
 			}
 			AliTABLE::addOne($ali);
 			// AliTABLE::updateByWhere(array('id'=>$id),array('city'=>$ali['city']));
