@@ -280,6 +280,20 @@ class Ali
 			return RedisUtil::get('access_token');
 		}
 	}
+	private static function getAccessToken1(){
+		if (!RedisUtil::exists('access_token1')) {
+			$out = CurlUtils::sendGet('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx44a3fd1cc1e43b48&secret=9746ffe36ee46fb1d5ab7725f2fe2d4f');
+			// $out = CurlUtils::sendGet('https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx243493b23d1f6432&secret=b039a3327c3f6e5ab187385f748e112b');
+			$out = json_decode($out);
+			if (isset($out->access_token)) {
+				RedisUtil::set('access_token1',$out->access_token);
+				RedisUtil::expire('access_token1',$out->expires_in);
+				return $out->access_token;
+			}
+		}else{
+			return RedisUtil::get('access_token');
+		}
+	}
 
 	private static function getMsg($touser,$content){
 		return '{
@@ -295,15 +309,18 @@ class Ali
 
 	private static function send($content = 'hello'){
 		$ac_to = self::getAccessToken();
+		$ac_to1 = self::getAccessToken1();
 		$url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$ac_to;
+		$url1 = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=".$ac_to1;
 		// $json1 = json_encode(array('touser' => 'oaOXBvmiNQX2HLEtD2YamCuhws6M', 'msgtype' => 'text', 'text' => array('content'=>$content)));
 		// $json1 = self::getMsg('oaOXBvmiNQX2HLEtD2YamCuhws6M',$content);
 		// $json2 = self::getMsg('oaOXBvs3ilOM1Qsu747wz0dRvg54',$content);
 		// $json1 = urldecode(json_encode(array('touser' => 'oexX2s49mFqfp_eWjAjt7x7N6q4g', 'msgtype' => 'text', 'text' => array('content'=>urlencode($content)))));
 		$json1 = urldecode(json_encode(array('touser' => 'oexX2syKledomf-QZTDz7xdXv1G4', 'msgtype' => 'text', 'text' => array('content'=>urlencode($content)))));
-		// $json1 = urldecode(json_encode(array('touser' => 'oaOXBvmiNQX2HLEtD2YamCuhws6M', 'msgtype' => 'text', 'text' => array('content'=>urlencode($content)))));
+		$json2 = urldecode(json_encode(array('touser' => 'oaOXBvmiNQX2HLEtD2YamCuhws6M', 'msgtype' => 'text', 'text' => array('content'=>urlencode($content)))));
 		// $json2 = urldecode(json_encode(array('touser' => 'oaOXBvs3ilOM1Qsu747wz0dRvg54', 'msgtype' => 'text', 'text' => array('content'=>urlencode($content)))));
 		list($a[0],$a[1]) = CurlUtils::http_post_json($url, $json1);
+		list($a[0],$a[1]) = CurlUtils::http_post_json($url1, $json2);
 		// list($a[0],$a[1]) = CurlUtils::http_post_json($url, $json2);
 		// CurlUtils::http_post_json($url, $json2);
 		exit();
