@@ -250,9 +250,9 @@ class Ali
 					$status = 1;
 				}
 			}
-			// if ($status == 1) {
+			if ($status == 1) {
 				self::send("<a target='_blank' href='".$ali['url']."'>".$ali['company']."</a>");
-			// }
+			}
 			AliTABLE::addOne($ali);
 			// AliTABLE::updateByWhere(array('id'=>$id),array('city'=>$ali['city']));
 		}
