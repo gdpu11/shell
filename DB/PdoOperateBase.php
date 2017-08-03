@@ -423,7 +423,7 @@ class PdoOperateBase
         $saveKey = array_intersect($dataKey,$fieldKey);
         $saveValue = array();
         foreach ($saveKey as $key => $value) {
-            $saveValue[] = "'".$data[$value]."'";
+            $saveValue[] = "'".str_replace(' ', '', $data[$value])."'";
         }
         $str = '('.implode(',', $saveValue).')';
         return $str;
