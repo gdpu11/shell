@@ -2,6 +2,7 @@
 namespace Test;
 
 use DB\AliTABLE;
+use Utils\Common;
 use Utils\RedisUtil;
 use Utils\CurlUtils;
 
@@ -9,7 +10,7 @@ class Ali
 { 
 	private static $keyword = array('中山','江门','珠海');
 
-	public static function sendMsg(){
+	private static function sendMsg(){
 		$ali = AliTABLE::getOne(array('id'=>36615040));
 		$status =0;
 		foreach (self::$keyword as $key => $value) {
@@ -244,6 +245,7 @@ class Ali
 				'city'=>isset($data['city'][1][0])?$data['city'][1][0]:0,
 				'add_time'=>time(),
 				);
+			AliTABLE::addOne($ali);
 			$status = 0;
 			foreach (self::$keyword as $key => $value) {
 				if (strpos($ali['company'].$ali['city'], $value)!== false) {
@@ -253,7 +255,6 @@ class Ali
 			if ($status == 1) {
 				self::send("<a target='_blank' href='".$ali['url']."'>".$ali['company']."</a>");
 			}
-			AliTABLE::addOne($ali);
 			// AliTABLE::updateByWhere(array('id'=>$id),array('city'=>$ali['city']));
 		}
 	}
@@ -294,7 +295,10 @@ class Ali
 			return RedisUtil::get('access_token');
 		}
 	}
+	private static function sendEmail(){
+		Common::sendEmail();
 
+	}
 	private static function getMsg($touser,$content){
 		return '{
 	        "touser":"'.$touser.'",
@@ -323,7 +327,6 @@ class Ali
 		list($a[0],$a[1]) = CurlUtils::http_post_json($url1, $json2);
 		// list($a[0],$a[1]) = CurlUtils::http_post_json($url, $json2);
 		// CurlUtils::http_post_json($url, $json2);
-		exit();
 	}
 
 
