@@ -158,6 +158,45 @@ class Ali
 	    exit();
 	}
 
+	private static function lin($url){
+
+		$opts = array('http' =>
+			        array(
+		            'method'  => 'GET',
+		            'header' => ':authority:'.$url."\r\n"
+						.':method:GET'."\r\n"
+						.':path:/page/contactinfo.htm'."\r\n"
+						.':scheme:https'."\r\n"
+						.'accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'."\r\n"
+						// .'accept-encoding:gzip, deflate'."\r\n"
+						.'accept-language:zh-CN,zh;q=0.8'."\r\n"
+						.'cache-control:max-age=0'."\r\n"
+						.'content-type:application/x-www-form-urlencoded'."\r\n"
+						.'cookie:JSESSIONID=9L78l9qw1-dN1Ys1U4W2Dl9kRgPA-eM0kMQQ-nyOL; ali_apache_track="c_ms=1|c_mid=b2b-1600327515|c_lid=gdpu11"; ali_apache_tracktmp="c_w_signed=Y"; UM_distinctid=15d7855b21f3ee-094d01276b6842-1571466f-1fa400-15d7855b220586; ali_beacon_id=14.18.236.187.1501053772390.920661.0; ali_ab=14.215.172.196.1500962471158.5; cna=5uTkEdtdcxACAQ4S7LvKDQbv; alicnweb=lastlogonid%3Dgdpu11%7Ctouch_tb_at%3D1501725074902; cookie1=BdM0yO4M2ve2%2F6GBip3tA89bd6%2BmJx%2FVgCZmCbXANS4%3D; cookie2=1c0f323d2e4bef75f7c8bfc201b45ebe; cookie17=Uoe0bUt%2F%2FrCnPw%3D%3D; uss=UR2NjczBazSjTiff9ZPW0axmpnw46Nz%2BcI3Ftxe3INNM9hGEZcXM%2Bp1a3w%3D%3D; t=a02544b73a9fd263e867b8638e17a6f4; _tb_token_=e671eefb3bb3e; sg=157; __cn_logon__=true; __cn_logon_id__=gdpu11; cn_tmp="Z28mC+GqtZ1waru4w6kjau/aRCobqNdabaWTDqYYOYjx3BJZf9BR447G9TsJcO8n+elQ6kMpFEBttWz8sxFQ1kLo2ykyQWQ1GU9XIwWX9yQSLDKahKD1ExE3qR422Q993HG7rGwlYKwZVUpcCGj8Hwm4lWDHEPa/Q6BI83eOm4ylITGAjGD/RM9JDxxV1xtmWnGOuzJ5eSEyGD/db3qbPbAFNVSSYqQc+qln/orV60A="; _cn_slid_=vbQEJ44hHm; tbsnid=OM7YsQqTUl9t9vV%2FsSRU8mgfXErszIa%2BlysU6PGaSIc6sOlEpJKl9g%3D%3D; LoginUmid="8Sqcaf5aU%2FD8dlhkB5NTCPI%2FbyJwsOAvccw36LNHa49TG4BC5yy9jw%3D%3D"; userID="%2BTZ1ATiQ%2BU6K%2FhvPk1RWIUYghLzxWWn%2B%2BsGi33baZlM6sOlEpJKl9g%3D%3D"; last_mid=b2b-1600327515; unb=1600327515; __last_loginid__=gdpu11; login="kFeyVBJLQQI%3D"; _csrf_token=1501725328394; userIDNum=lDtWkCp106nFSJDXntqVGw%3D%3D; _nk_=rS6M4t5tu9E%3D; _is_show_loginId_change_block_=b2b-1600327515_false; _show_force_unbind_div_=b2b-1600327515_false; _show_sys_unbind_div_=b2b-1600327515_false; _show_user_unbind_div_=b2b-1600327515_false; __rn_alert__=false; _tmp_ck_0="4eBTqdpOdrSx8nFEeduFPwH3Cy%2Bpx1yxN5TWSQI0iaoCuyG8k7zzCVKOB4%2Bw4ecS%2FMBQrOk7jJ5yIh%2Fcj%2B3BJyWoa70i4SLYwSmd8%2B40rTwTnDxZYdeCYwerYV0clNfJaAbv1tKBco4lWrar29WdznhGGFTzlirGANonPKCIwxEVuZMXo4nEY7FMNEhZOdzOLjyz9m09qjyCM4fsOTsHCMlG802EVKxXVn%2F2h%2Fzf9XVT1zkpFuC0gl4qjGLL66V9%2F5rhqP4oHJPMrKL9eR5QbqmeCvloJdhfHZeMElcY9KUNSgtYU20RGDB1tkIvPqusjxqCuXd1zVl%2Fr8p%2BNb%2FcrdXlVNSVZC9qTmgcX76iVqX4QyeyZYaf3alHo5t%2BrORUaz4bKoR2PdK3deL4bMxqIYP%2B8dSV5j4CxsNORUBTFAYxfiGyJEciB0g7589L%2BzUcl8LmyBRuGEIz6uiz0I3I4%2BjFQ1q3%2FqXvUOV%2F%2Be1Qvjj7cIcUK4m0UzJFTgptEjwEnRwgMg9X4Rltdb%2BH2sfog1jUFu2SYP%2Fwbjyz7ewgpwALVvtajLtZ7w%3D%3D"; isg=AvPzpx6_rhizf2K4Tphb5a6kjPfdgDfrApJTG6WQJ5JJpBJGLPkFOqbyKsuu'."\r\n"
+						.'origin:https://'.$url."\r\n"
+						.'referer:https://'.$url.'/page/contactinfo.htm'."\r\n"
+						.'upgrade-insecure-requests:1'."\r\n"
+						.'user-agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.221 Safari/537.36 SE 2.X MetaSr 1.0'."\r\n",
+			        )
+			    );
+	    $context  = stream_context_create($opts);
+	    if(!$context){
+	        echo "upload faild";
+	        exit(1);
+	    } 
+		$url = 'https://'.$url.'/page/contactinfo.htm';
+		// $url = 'https://purchase.1688.com/favorites/add_to_favorites.htm?spm=a26105.207177701.0.0.moD856&content_type=COMPANY&content_id=88888888';
+	    $result = file_get_contents($url, false, $context);
+		$result = iconv('gb2312','utf-8//TRANSLIT//IGNORE', $result);
+		preg_match_all('#<dd class="mobile-number">[.\r\n]?(.*?)[.\n]#', $result, $data['lin']);
+		preg_match_all('# 地址\：[.\r\n]()(.*?)[.\r\n]#', $result, $data['adr']);
+		if (isset($data['lin'][1][0])) {
+			return str_replace(' ', '', $data['lin'][1][0]);
+		}else}{
+			return '';
+		}
+		
+	}
 	public static function getali(){
 		ini_set("display_errors", "Off");
 
@@ -213,9 +252,8 @@ class Ali
 		preg_match_all('#\<span class=\"label\"\>(.*?)[.\n]#', $result, $data['user']);
 		preg_match_all('#此信息收藏人气\:(.*?)<\/strong><\/p>#', $result, $data['hot']);
 		preg_match_all('#https\:\/\/shop(.*?)1688\.com#', $result, $data['url']);
-		// preg_match_all('#<dd class=\"mode\"><span class=\"label\">(.*?)<\/dd>#', $result, $data['mode']);
-		// preg_match_all('#<dd class=\"txt\"><span class=\"label\">(.*?)<\/dd>#', $result, $data['txt']);
 		preg_match_all('#\<dd class=\"city\"\>[.\n](.*?)[.\n]#', $result, $data['city']);
+
 		if (!isset($data['name'][1][1])||empty($data['name'][1][1])) {
 			// print_r(iconv('UTF-8', 'GB2312', $result));
 			$nullcount = RedisUtil::incr($startKey.'-nullcount');

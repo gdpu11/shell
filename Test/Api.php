@@ -49,7 +49,7 @@ class Api extends \Test\ApiBase
 	 * @return [type] [description]
 	 */
 	public static function getServer(){
-		self::sess();;
+		// self::sess();;
 		print_r($_SERVER);
 		exit();
 	}

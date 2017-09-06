@@ -1,4 +1,6 @@
 <?php
+echo 'what???';exit();
+
 ini_set("display_errors", "On");
 error_reporting(E_ALL | E_STRICT);
 // phpinfo();
@@ -18,7 +20,7 @@ $GLOBALS['CONFIG'] = $config;
 //自动加载类
 function autoLoad($className){
 	$arr = explode("\\", $className);
-    include(ROOT_PATH.implode("/", $arr).'.php');
+    include(ROOT_PATH.implode(DIRECTORY_SEPARATOR, $arr).'.php');
 }
 spl_autoload_register('autoLoad');
 
@@ -26,6 +28,7 @@ $g = isset($_GET['g']) ? ucfirst($_GET['g']) : 'User';
 $c = isset($_GET['c']) ? ucfirst($_GET['c']) : 'User';
 $function = isset($_GET['f']) ? $_GET['f'] : 'login';
 $class = $g.'\\'.$c;
+
 
 if (method_exists($class, $function)) {
 	    return $class::$function();

@@ -5,7 +5,7 @@ $config = array(
 			'dbHost'=>'localhost',
 			'dbUser'=>'root',
 			'dbName'=>'john_db',
-			'dbPassword'=>'123456',
+			'dbPassword'=>'',
 			'dbPort'=>3306,
 			)
 		);
